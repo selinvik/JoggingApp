@@ -10,8 +10,12 @@ const User = sequelize.define('Users', {
   name: { type: Sequelize.STRING}, 
   });
 
-  User.create({ id: 1, name: 'Viktor' }).then(jane => {
-    console.log("Jane's auto-generated ID:", jane.id);
+  User.create({
+    name: 'Viktor'
   });
+
+  /*User.create({ id: 1, name: 'Viktor' }).then(jane => {
+    console.log("Jane's auto-generated ID:", jane.id);
+  });*/
 
 module.exports = sequelize;
