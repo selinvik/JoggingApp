@@ -15,8 +15,7 @@ class Login extends Component {
 
   async createAccount(){
     try {
-      console.log('name', this.state.firstName);
-      const response = await fetch('http://localhost:8000/test2',
+      const response = await fetch('http://localhost:8000/create-account',
         {
           method: 'POST',
           credentials: 'include',
@@ -25,7 +24,10 @@ class Login extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name: this.state.firstName + ""
+            firstName : this.state.firstName + "",
+            lastName  : this.state.lastName + "",
+            eMail     : this.state.eMail + "",
+            password  : this.state.password + ""
           })
         });
         if (response.status === 200){
@@ -75,35 +77,30 @@ class Login extends Component {
   }*/
 
   handleChangeFirstName(event) {
-    console.log(event.target.value);
     this.setState({
         firstName: event.target.value
     })
   }
 
   handleChangeLastName(event) {
-    console.log(event.target.value);
     this.setState({
         lastName: event.target.value
     })
   }
 
   handleChangeEmail(event) {
-    console.log(event.target.value);
     this.setState({
         eMail: event.target.value
     })
   }
 
   handleChangePassword(event) {
-    console.log(event.target.value);
     this.setState({
         password: event.target.value
     })
   }
 
   handleChangePasswordRepeat(event) {
-    console.log(event.target.value);
     this.setState({
         passwordRepeat: event.target.value
     })

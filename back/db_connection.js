@@ -6,20 +6,31 @@ const sequelize = new Sequelize('admin', 'postgres', '3345', {
 });
 
 const User = sequelize.define('Users', { 
-  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }, 
-  name: { type: Sequelize.STRING}, 
+  id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }, 
+  firstName : { type: Sequelize.STRING},
+  lastName  : { type: Sequelize.STRING},
+  eMail     : { type: Sequelize.STRING},
+  password  : { type: Sequelize.STRING}, 
 });
 
-/*function addNewUser(){
-  User.create({
-    name: 'Viktor'
-  });
-}*/
+const Record = sequelize.define('Records', { 
+  id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }, 
+  date      : { type: Sequelize.DATE},
+  distance  : { type: Sequelize.STRING},
+  time      : { type: Sequelize.TIME},
+});
 
-  /*User.create({ id: 1, name: 'Viktor' }).then(jane => {
-    console.log("Jane's auto-generated ID:", jane.id);
-  });*/
+/*// Note: using `force: true` will drop the table if it already exists
+Record.sync({ force: true }).then(() => {
+  // Now the `users` table in the database corresponds to the model definition
+  return Record.create({
+    date: '08.08.2018',
+    distance: '1000',
+    time: '5:36'
+  });
+});*/
 
 module.exports = sequelize;
 
-module.exports = {User};
+module.exports = {User, Record};
+

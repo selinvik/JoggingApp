@@ -6,9 +6,30 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 class Records extends Component {
- render(){
-  return(
-<ReactTable
+  
+  state = {records:[]}
+  
+  componentWillMount(){
+    this.loadRecords()
+  }
+
+  async loadRecords() {
+    try {
+      let response = await fetch('http://localhost:8000/get-records',
+        {credentials: 'include'}
+      );
+      let responseJson = await response.json();
+      this.setState({records: responseJson});
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  render(){
+    console.log(this.state.records)
+    return(
+      <ReactTable
         
         noDataText="Нет данных!"
         columns={[

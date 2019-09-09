@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var app = express();
 const {User} = require('./db_connection');
+const {Record} = require('./db_connection');
 
 
 app.use('*', function (req, res, next) {
@@ -29,16 +30,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.post('/test2', function (req, res) {
+app.post('/create-account', function (req, res) {
   console.log('body', req.body);
-  res.send(User.create({ name: req.body.name }).then(user => {
+  res.send(User.create({ 
+    firstName : req.body.firstName,
+    lastName  : req.body.lastName,
+    eMail     : req.body.eMail,
+    password  : req.body.password 
+  }).then(user => {
     console.log("user's auto-generated ID:", user.id);
     })
   )
 });
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
+app.get('/get-records', function(req, res) {
+    res.send(Record.findAll())
 });
 
 app.listen(8000, function () {
