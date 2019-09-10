@@ -30,21 +30,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.post('/create-account', function (req, res) {
-  console.log('body', req.body);
-  res.send(User.create({ 
+app.post('/create-account', async function (req, res) {
+  const user = await User.create({ 
     firstName : req.body.firstName,
     lastName  : req.body.lastName,
     eMail     : req.body.eMail,
     password  : req.body.password 
-  }).then(user => {
-    console.log("user's auto-generated ID:", user.id);
-    })
-  )
+  })
+  res.send(user)
 });
 
-app.get('/get-records', function(req, res) {
-    res.send(Record.findAll())
+app.get('/get-records', async function(req, res) {
+  const records = await Record.findAll()
+  res.send(records)
 });
 
 app.listen(8000, function () {
