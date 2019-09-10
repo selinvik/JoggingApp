@@ -1,9 +1,12 @@
 import React from 'react';
 import { Component } from 'react';
 import './Records.css';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+
+import Button from 'react-bootstrap/Button';
 
 class Records extends Component {
   
@@ -29,28 +32,45 @@ class Records extends Component {
   render(){
     console.log(this.state.records)
     return(
-      <ReactTable
-        
+      <div>
+        <ReactTable
+        data={this.state.records}
         noDataText="Нет данных!"
+        style={{width: '50%'}}
         columns={[
-          /*{
-            Header: "Роль",
-            id:"roleId",
-            accessor: (d) => beautifyRole(d.roleId)
-          },*/
           {
-            Header: "Текст",
-            id: 'text',
-            accessor: (d) => <div dangerouslySetInnerHTML={{__html: d.text}}/>
+            Header: "Date",
+            accessor: "date",
           },
           {
-            Header: "Переменные",
-            accessor: "variables"
+            Header: "Distance",
+            accessor: "distance"
+          },
+          {
+            Header: "Time",
+            accessor: "time"
+          },
+          {
+            Header: "Average speed",
+            //accessor: "distance"
+          },
+          {
+            Header: "Edit",
+            //accessor: "distance"
+          },
+          {
+            Header: "Delete",
+            //accessor: "distance"
           }
         ]}
-        filterable
         defaultPageSize={10}
         className="-striped -highlight"/>
+        
+        <Button variant="outline-secondary">
+          <Link to="/records/add-new">Add new record</Link>
+        </Button>
+      </div>
+
   )
  }
 }

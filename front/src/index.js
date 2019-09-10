@@ -2,16 +2,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Login from './routes/Login/Login';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.css';
+import Login from './routes/Login/Login';
 import Records from './routes/Records/Records';
+import RecordsAddNew from './routes/RecordsAddNew/RecordsAddNew';
 
 ReactDOM.render((
  <Router>
    <Route path="/" exact component={Login} />
-   <Route path="/records/" component={Records} />
+   <Route path="/records/" exact component={Records} />
+   <Route path="/records/add-new" exact component={RecordsAddNew} />
  </Router>
 ), document.getElementById('root'));
 
