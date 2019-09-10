@@ -8,12 +8,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Login from './routes/Login/Login';
 import Records from './routes/Records/Records';
 import RecordsAddNew from './routes/RecordsAddNew/RecordsAddNew';
+import Reports from './routes/Reports/Reports';
 
 ReactDOM.render((
  <Router>
    <Route path="/" exact component={Login} />
    <Route path="/records/" exact component={Records} />
-   <Route path="/records/add-new" exact component={RecordsAddNew} />
+   <Route path="/records/add-new/" exact component={RecordsAddNew} />
+   <Route path="/reports/" exact component={Reports} />
  </Router>
 ), document.getElementById('root'));
 
