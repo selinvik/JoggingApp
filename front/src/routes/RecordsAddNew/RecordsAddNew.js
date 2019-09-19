@@ -12,6 +12,53 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 class RecordsAddNew extends Component {
+
+  state = {date: null, distance: null, time: null}
+
+  async addRecord(){
+    console.log(this.state.date, this.state.distance, this.state.time)
+    try {
+      const response = await fetch('http://localhost:8000/add-record',
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            date      : this.state.date + "",
+            distance  : this.state.distance + "",
+            time      : this.state.time + ""
+          })
+        });
+        if (response.status === 200){
+          alert('Получилось');
+        }
+      } catch (error) {
+        alert('Произошла ошибка в ходе авторизации!');
+        console.error(error);
+      }
+  }
+
+  handleChangeDate(event) {
+    this.setState({
+        date: event.target.value
+    })
+  }
+
+  handleChangeDistance(event) {
+    this.setState({
+        distance: event.target.value
+    })
+  }
+
+  handleChangeTime(event) {
+    this.setState({
+        time: event.target.value
+    })
+  }
+
  render(){
   return(
    <Container>
@@ -22,10 +69,10 @@ class RecordsAddNew extends Component {
      <Form.Row>
        <Form.Group>
          <Form.Control
-           type="text"
-           placeholder="Date"
-           //value={this.state.firstName}
-          // onChange={this.handleChangeFirstName.bind(this)}
+          type="text"
+          placeholder="Date"
+          value={this.state.date}
+          onChange={this.handleChangeDate.bind(this)}
          />
        </Form.Group>
      </Form.Row>
@@ -34,22 +81,22 @@ class RecordsAddNew extends Component {
          <Form.Control
            type="text"
            placeholder="Distance"
-           //value={this.state.lastName}
-           //onChange={this.handleChangeLastName.bind(this)}
+           value={this.state.distance}
+           onChange={this.handleChangeDistance.bind(this)}
          />
        </Form.Group>
      </Form.Row>
      <Form.Row>
        <Form.Group>
          <Form.Control
-           type="email" 
+           type="text" 
            placeholder="Time"
-           //value={this.state.eMail}
-           //onChange={this.handleChangeEmail.bind(this)}
+           value={this.state.time}
+           onChange={this.handleChangeTime.bind(this)}
          />
        </Form.Group>
      </Form.Row>
-       <Button variant="outline-secondary" /*onClick={() => this.createAccount()}*/>
+       <Button variant="outline-secondary" onClick={() => this.addRecord()}>
          <Link to="/records/">SUBMIT</Link>
        </Button>
    </Form>

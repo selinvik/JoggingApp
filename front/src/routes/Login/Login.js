@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 
 class Login extends Component {
   
-  state = {firstName: null, lastName: null, eMail: null, password: null, passwordRepeat: null}
+  state = {loginEmail: null, loginPassword: null, firstName: null, lastName: null, email: null, password: null, passwordRepeat: null}
 
   async createAccount(){
     try {
@@ -26,9 +26,33 @@ class Login extends Component {
           body: JSON.stringify({
             firstName : this.state.firstName + "",
             lastName  : this.state.lastName + "",
-            eMail     : this.state.eMail + "",
+            email     : this.state.email + "",
             password  : this.state.password + ""
           })
+        });
+        if (response.status === 200){
+          alert('Получилось');
+        }
+      } catch (error) {
+        alert('Произошла ошибка в ходе авторизации!');
+        console.error(error);
+      }
+  }
+
+  async auth(){
+    try {
+      const response = await fetch('http://localhost:8000/authentication',
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+            body: JSON.stringify({
+              email: this.state.email + "",
+              password: this.state.password + "",
+            })
         });
         if (response.status === 200){
           alert('Получилось');
@@ -76,6 +100,18 @@ class Login extends Component {
     });
   }*/
 
+  handleChangeLoginEmail(event) {
+    this.setState({
+        loginEmail: event.target.value
+    })
+  }
+
+  handleChangeLoginPassword(event) {
+    this.setState({
+        loginPassword: event.target.value
+    })
+  }
+
   handleChangeFirstName(event) {
     this.setState({
         firstName: event.target.value
@@ -90,7 +126,7 @@ class Login extends Component {
 
   handleChangeEmail(event) {
     this.setState({
-        eMail: event.target.value
+        email: event.target.value
     })
   }
 
@@ -109,20 +145,30 @@ class Login extends Component {
   render(){
     return (
       <Container>
-        <Row>
+        <Row action="/" method="post">
           <Col>Jogging App</Col>
           <Col>
             <Form.Group>
-              <Form.Control type="email" placeholder="Email" />
+              <Form.Control
+                type="email" 
+                placeholder="Email"
+                value={this.state.loginEmail}
+                onChange={this.handleChangeLoginEmail.bind(this)} />
             </Form.Group>
           </Col>
           <Col>
             <Form.Group>
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control
+                type="password" 
+                placeholder="Password"
+                value={this.state.loginPassword}
+                onChange={this.handleChangeLoginPassword.bind(this)} />
             </Form.Group>
           </Col>
           <Col>
-            <Button variant="outline-secondary"><Link to="/records/">Log in</Link></Button>
+            <Button variant="outline-secondary" onClick={() => this.auth()}>
+              <Link to="/records/">Log in</Link>
+            </Button>
           </Col>
         </Row>
 
@@ -152,7 +198,7 @@ class Login extends Component {
               <Form.Control
                 type="email" 
                 placeholder="Email"
-                value={this.state.eMail}
+                value={this.state.email}
                 onChange={this.handleChangeEmail.bind(this)}
               />
             </Form.Group>
