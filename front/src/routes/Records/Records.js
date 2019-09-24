@@ -16,13 +16,13 @@ class Records extends Component {
   
   state = {records:[]}
   
-  componentWillMount(){
+  /*componentWillMount(){
     this.loadRecords()
-  }
+  }*/
 
   async loadRecords() {
     try {
-      let response = await fetch('http://localhost:8000/get-records',
+      let response = await fetch('/api/record',
         {credentials: 'include'}
       );
       let responseJson = await response.json();

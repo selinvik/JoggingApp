@@ -13,9 +13,15 @@ const User = sequelize.define('Users', {
   password  : { type: Sequelize.STRING}, 
 });
 
+User.prototype.validPassword = function(password){
+  console.log('TODO: check password here');
+  console.log('current user password: ', this.dataValues.password);
+  return true;
+}
+
+
 const Record = sequelize.define('Records', { 
   id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  //uuid      : { type: Sequelize.UUID, primaryKey: true },
   date      : { type: Sequelize.DATE},
   distance  : { type: Sequelize.STRING},
   time      : { type: Sequelize.TIME},
@@ -38,8 +44,8 @@ Record.sync({ force: true }).then(() => {
   });
 });*/
 
-User.hasMany(Record);
-Record.belongsTo(User);
+/*User.hasMany(Record);
+Record.belongsTo(User);*/
 
 module.exports = sequelize;
 

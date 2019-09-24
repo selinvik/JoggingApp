@@ -15,7 +15,7 @@ class Login extends Component {
 
   async createAccount(){
     try {
-      const response = await fetch('http://localhost:8000/create-account',
+      const response = await fetch('/api/user',
         {
           method: 'POST',
           credentials: 'include',
@@ -39,20 +39,20 @@ class Login extends Component {
       }
   }
 
-  async auth(){
+  async login(){
+    console.log(this.state.loginEmail, this.state.loginPassword)
     try {
-      const response = await fetch('http://localhost:8000/authentication',
+      const response = await fetch('/api/auth',
         {
           method: 'POST',
-          credentials: 'include',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
-            body: JSON.stringify({
-              email: this.state.email + "",
-              password: this.state.password + "",
-            })
+          body: JSON.stringify({
+            email: this.state.loginEmail + "",
+            password: this.state.loginPassword + "",
+          })
         });
         if (response.status === 200){
           alert('Получилось');
@@ -145,7 +145,7 @@ class Login extends Component {
   render(){
     return (
       <Container>
-        <Row action="/" method="post">
+        <Row>
           <Col>Jogging App</Col>
           <Col>
             <Form.Group>
@@ -166,8 +166,8 @@ class Login extends Component {
             </Form.Group>
           </Col>
           <Col>
-            <Button variant="outline-secondary" onClick={() => this.auth()}>
-              <Link to="/records/">Log in</Link>
+            <Button variant="outline-secondary" onClick={() => this.login()}>
+              <Link /*to="/records/"*/>Log in</Link>
             </Button>
           </Col>
         </Row>

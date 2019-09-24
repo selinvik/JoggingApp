@@ -18,7 +18,7 @@ class RecordsAddNew extends Component {
   async addRecord(){
     console.log(this.state.date, this.state.distance, this.state.time)
     try {
-      const response = await fetch('http://localhost:8000/add-record',
+      const response = await fetch('/api/record',
         {
           method: 'POST',
           credentials: 'include',
