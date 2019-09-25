@@ -14,11 +14,13 @@ const User = sequelize.define('Users', {
 });
 
 User.prototype.validPassword = function(password){
-  console.log('TODO: check password here');
+  console.log('TODO: check password here' + password);
   console.log('current user password: ', this.dataValues.password);
-  return true;
+  if (password === this.dataValues.password){
+    return true;
+  }
+  else return false
 }
-
 
 const Record = sequelize.define('Records', { 
   id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -44,8 +46,8 @@ Record.sync({ force: true }).then(() => {
   });
 });*/
 
-/*User.hasMany(Record);
-Record.belongsTo(User);*/
+User.hasMany(Record, {foreignKey: 'owner'});
+Record.belongsTo(User, {foreignKey: 'owner'});
 
 module.exports = sequelize;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './Login.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom"
 
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -31,7 +31,8 @@ class Login extends Component {
           })
         });
         if (response.status === 200){
-          alert('Получилось');
+          alert('Аккаунт успешно создан');
+          this.setState({loginEmail: null, loginPassword: null, firstName: null, lastName: null, email: null, password: null, passwordRepeat: null})
         }
       } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
@@ -40,7 +41,7 @@ class Login extends Component {
   }
 
   async login(){
-    console.log(this.state.loginEmail, this.state.loginPassword)
+    //console.log(this.state.loginEmail, this.state.loginPassword)
     try {
       const response = await fetch('/api/auth',
         {
@@ -54,8 +55,13 @@ class Login extends Component {
             password: this.state.loginPassword + "",
           })
         });
-        if (response.status === 200){
+        if (response.status === 201){
           alert('Получилось');
+          this.props.history.push('/records/');
+        }
+        if (response.status === 422){
+          alert('Нету такого юзера');
+          this.props.history.push('/');
         }
       } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
@@ -167,7 +173,7 @@ class Login extends Component {
           </Col>
           <Col>
             <Button variant="outline-secondary" onClick={() => this.login()}>
-              <Link /*to="/records/"*/>Log in</Link>
+              <Link to="/records/">Log in</Link>
             </Button>
           </Col>
         </Row>
@@ -224,7 +230,7 @@ class Login extends Component {
             </Form.Group>
           </Form.Row>
             <Button variant="outline-secondary" onClick={() => this.createAccount()}>
-              <Link to="/records/">Create an account</Link>
+              <Link /*to="/records/"*/>Create an account</Link>
             </Button>
         </Form>
       </Container>
@@ -232,5 +238,5 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default withRouter(Login)
 

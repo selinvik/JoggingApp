@@ -5,19 +5,17 @@ const authController = {
   create: async (req, res, next) => {
     await passport.authenticate('local', function(err, user, info) {
       if (err)  { 
-        console.log('q1')
+        console.log('ошибка')
         return next(err);
       }
       if (!user) { 
-        console.log('q2');
-        console.log('orig: ', req.originalUrl)
-        return res.redirect('/'); 
+        console.log('нету такого юзера')
+        return res.status(422).send()
       }
-      console.log('qqq');
       req.logIn(user, function(err) {
-        console.log('q3', err)
         if (err) { return next(err); }
-        return res.redirect('/records');
+        console.log('юзер есть 2', err)
+        res.status(201).send()
       });
     })(req, res, next);
   }
