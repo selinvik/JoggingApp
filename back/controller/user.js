@@ -13,7 +13,6 @@ const userController = {
   }
 }
 
-
 router.route('/')
   .post(userController.create);
 

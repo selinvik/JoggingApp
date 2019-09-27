@@ -2,7 +2,7 @@ var router = require('express').Router();
 
 router.use(require('../middlewares/bodyParse'));
 router.use(require('../middlewares/cors'));
-router.use(require('../middlewares/passport'));
+router.use(require('../middlewares/auth'));
 
 router.use('/user', require('./user'));
 router.use('/record', require('./record'));

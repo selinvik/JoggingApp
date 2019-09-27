@@ -14,8 +14,10 @@ const authController = {
       }
       req.logIn(user, function(err) {
         if (err) { return next(err); }
-        console.log('юзер есть 2', err)
+        console.log('юзер есть', err)
+        console.log(user.id)
         res.status(201).send()
+        //res.send(user.id)
       });
     })(req, res, next);
   }

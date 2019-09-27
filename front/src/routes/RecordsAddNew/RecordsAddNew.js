@@ -69,7 +69,7 @@ class RecordsAddNew extends Component {
      <Form.Row>
        <Form.Group>
          <Form.Control
-          type="text"
+          type="date"
           placeholder="Date"
           value={this.state.date}
           onChange={this.handleChangeDate.bind(this)}
@@ -89,7 +89,7 @@ class RecordsAddNew extends Component {
      <Form.Row>
        <Form.Group>
          <Form.Control
-           type="text" 
+           type="time" 
            placeholder="Time"
            value={this.state.time}
            onChange={this.handleChangeTime.bind(this)}

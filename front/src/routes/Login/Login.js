@@ -32,7 +32,6 @@ class Login extends Component {
         });
         if (response.status === 200){
           alert('Аккаунт успешно создан');
-          this.setState({loginEmail: null, loginPassword: null, firstName: null, lastName: null, email: null, password: null, passwordRepeat: null})
         }
       } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
