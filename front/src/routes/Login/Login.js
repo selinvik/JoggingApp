@@ -42,7 +42,7 @@ class Login extends Component {
   async login(){
     //console.log(this.state.loginEmail, this.state.loginPassword)
     try {
-      const response = await fetch('/api/auth',
+      const response = await fetch('/api/authentication',
         {
           method: 'POST',
           headers: {

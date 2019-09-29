@@ -16,9 +16,9 @@ class Records extends Component {
   
   state = {records:[]}
   
-  /*componentWillMount(){
+  componentWillMount(){
     this.loadRecords()
-  }*/
+  }
 
   async loadRecords() {
     try {
