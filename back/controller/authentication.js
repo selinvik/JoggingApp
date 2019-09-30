@@ -12,19 +12,21 @@ const authController = {
         console.log('нету такого юзера')
         return res.status(422).send()
       }
-      req.logIn(user, function(err) {
+      req.logIn(user, async function(err) {
         if (err) { return next(err); }
-        console.log('юзер есть', err)
-        //console.log(user)
-        res.status(201).send()
-        //res.send(user.id)
+        await res.status(201).send()
       });
     })(req, res, next);
+  },
+  delete: async (req, res, next) => {
+    console.log('logout')
+    await req.logout();
+    return res.status(200).send()
   }
 }
 
-
 router.route('/')
-  .post(authController.create);
+  .post(authController.create)
+  .delete(authController.delete)
 
 module.exports = router;

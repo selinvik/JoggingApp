@@ -1,7 +1,7 @@
 
 const authorization = async (req, res, next) => {
   if (!req.user) {
-    return done (null, false)
+    return res.status(401).send()
   }
   else next()
 }

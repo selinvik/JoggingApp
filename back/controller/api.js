@@ -3,7 +3,6 @@ var router = require('express').Router();
 router.use(require('../middlewares/bodyParse'));
 router.use(require('../middlewares/cors'));
 router.use(require('../middlewares/authentication'));
-router.use(require('../middlewares/authorization'));
 
 router.use('/user', require('./user'));
 router.use('/record', require('./record'));

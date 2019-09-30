@@ -55,8 +55,8 @@ class Login extends Component {
           })
         });
         if (response.status === 201){
-          alert('Получилось');
-          this.props.history.push('/records/');
+            alert('LogIn');
+            this.props.history.push('/records/');
         }
         if (response.status === 422){
           alert('Нету такого юзера');

@@ -13,15 +13,33 @@ import Form from 'react-bootstrap/Form';
 
 class Reports extends Component {
 
+  async logOut(){
+    try {
+      const response = await fetch('/api/authentication',
+        {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.status === 200){
+          alert('LogOut');
+          this.props.history.push('/');
+        }
+      } catch (error) {
+        alert('Произошла ошибка в ходе авторизации!');
+        console.error(error);
+      }
+  }
+
  render(){
   return(
     <Container>
-      <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>
-        
+      <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>      
         <div style={{marginRight: '30px'}}><Link to="/records/">Records</Link></div>
-
-        <div>Reports</div>
-
+        <div style={{marginRight: '30px'}}>Reports</div>
+        <Button variant="outline-secondary" onClick={() => this.logOut()}>LogOut</Button>
       </Form.Row>
       <ReactTable
       //data={this.state.records}

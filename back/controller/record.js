@@ -26,6 +26,6 @@ const recordController = {
 
 router.route('/')
   .post(authorization, recordController.create)
-  .get(recordController.list);
+  .get(authorization, recordController.list);
 
 module.exports = router;

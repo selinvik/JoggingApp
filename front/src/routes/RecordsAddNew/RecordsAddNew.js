@@ -35,6 +35,9 @@ class RecordsAddNew extends Component {
         if (response.status === 200){
           alert('Получилось');
         }
+        if (response.status === 401){
+          alert('У вас не прав');
+        }
       } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
         console.error(error);

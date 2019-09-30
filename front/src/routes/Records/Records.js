@@ -13,7 +13,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 class Records extends Component {
-  
+
   state = {records:[]}
   
   componentWillMount(){
@@ -33,16 +33,46 @@ class Records extends Component {
     }
   }
 
+  async logOut(){
+    try {
+      const response = await fetch('/api/authentication',
+        {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.status === 200){
+          alert('LogOut');
+          this.props.history.push('/');
+        }
+      } catch (error) {
+        alert('Произошла ошибка в ходе авторизации!');
+        console.error(error);
+      }
+  }
+
+  beautifyDate(date) {
+    var beautifydate = new Date(date);
+    beautifydate = (beautifydate.getDate() + '.' + beautifydate.getMonth() + '.' + beautifydate.getFullYear());
+    return beautifydate
+  }
+
+  beautifyAvgSpeed(user) {
+    const distance = (parseInt(user.distance) / 1000)
+    const time     = (parseInt(user.time) / 60)
+    const avgSpeed = (distance / time)
+    return avgSpeed
+  }
+
   render(){
-    console.log(this.state.records)
     return(
       <Container>
-        <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>
-          
+        <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>         
           <div style={{marginRight: '30px'}}>Records</div>
-
-          <div><Link to="/reports/">Reports</Link></div>
-
+          <div style={{marginRight: '30px'}}><Link to="/reports/">Reports</Link></div>
+          <Button variant="outline-secondary" onClick={() => this.logOut()}>LogOut</Button>
         </Form.Row>
         <ReactTable
         data={this.state.records}
@@ -51,6 +81,7 @@ class Records extends Component {
           {
             Header: "Date",
             accessor: "date",
+            Cell: row => this.beautifyDate(row.value)
           },
           {
             Header: "Distance",
@@ -62,15 +93,19 @@ class Records extends Component {
           },
           {
             Header: "Average speed",
-            //accessor: "distance"
+            Cell: row => this.beautifyAvgSpeed(row.original)
           },
           {
             Header: "Edit",
-            //accessor: "distance"
+            Cell: row => (
+              <img src='/home/viktor/Рабочий стол/JoggingApp/front/pictures/edit.png'></img>
+            )
           },
           {
             Header: "Delete",
-            //accessor: "distance"
+            Cell: row => (
+              <img src='/home/viktor/Рабочий стол/JoggingApp/front/pictures/delete.png'></img>
+            )
           }
         ]}
         defaultPageSize={10}
