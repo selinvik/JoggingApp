@@ -4,14 +4,12 @@ import './Login.css';
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom"
 
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 
 class Login extends Component {
-  
-  state = {loginEmail: null, loginPassword: null, firstName: null, lastName: null, email: null, password: null, passwordRepeat: null}
+
+  state = {firstName: null, lastName: null, email: null, password: null, passwordRepeat: null}
 
   async createAccount(){
     try {
@@ -32,35 +30,6 @@ class Login extends Component {
         });
         if (response.status === 200){
           alert('Аккаунт успешно создан');
-        }
-      } catch (error) {
-        alert('Произошла ошибка в ходе авторизации!');
-        console.error(error);
-      }
-  }
-
-  async login(){
-    //console.log(this.state.loginEmail, this.state.loginPassword)
-    try {
-      const response = await fetch('/api/authentication',
-        {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.state.loginEmail + "",
-            password: this.state.loginPassword + "",
-          })
-        });
-        if (response.status === 201){
-            //alert('LogIn');
-            this.props.history.push('/records/');
-        }
-        if (response.status === 422){
-          alert('Нету такого юзера');
-          this.props.history.push('/');
         }
       } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
@@ -105,18 +74,6 @@ class Login extends Component {
     });
   }*/
 
-  handleChangeLoginEmail(event) {
-    this.setState({
-        loginEmail: event.target.value
-    })
-  }
-
-  handleChangeLoginPassword(event) {
-    this.setState({
-        loginPassword: event.target.value
-    })
-  }
-
   handleChangeFirstName(event) {
     this.setState({
         firstName: event.target.value
@@ -150,33 +107,6 @@ class Login extends Component {
   render(){
     return (
       <Container>
-        <Row>
-          <Col>Jogging App</Col>
-          <Col>
-            <Form.Group>
-              <Form.Control
-                type="email" 
-                placeholder="Email"
-                value={this.state.loginEmail}
-                onChange={this.handleChangeLoginEmail.bind(this)} />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group>
-              <Form.Control
-                type="password" 
-                placeholder="Password"
-                value={this.state.loginPassword}
-                onChange={this.handleChangeLoginPassword.bind(this)} />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Button variant="outline-secondary" onClick={() => this.login()}>
-              <Link to="/records/">Log in</Link>
-            </Button>
-          </Col>
-        </Row>
-
         Create an account
 
         <Form>
@@ -201,7 +131,7 @@ class Login extends Component {
           <Form.Row>
             <Form.Group>
               <Form.Control
-                type="email" 
+                type="email"
                 placeholder="Email"
                 value={this.state.email}
                 onChange={this.handleChangeEmail.bind(this)}
@@ -211,20 +141,20 @@ class Login extends Component {
           <Form.Row>
             <Form.Group>
               <Form.Control
-                type="password" 
+                type="password"
                 placeholder="Password"
                 value={this.state.password}
-                onChange={this.handleChangePassword.bind(this)} 
+                onChange={this.handleChangePassword.bind(this)}
               />
             </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group>
               <Form.Control
-                type="password" 
-                placeholder="Repeat password" 
+                type="password"
+                placeholder="Repeat password"
                 value={this.state.passwordRepeat}
-                onChange={this.handleChangePasswordRepeat.bind(this)} 
+                onChange={this.handleChangePasswordRepeat.bind(this)}
               />
             </Form.Group>
           </Form.Row>
