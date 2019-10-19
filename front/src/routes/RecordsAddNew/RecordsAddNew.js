@@ -16,7 +16,7 @@ class RecordsAddNew extends Component {
   state = {date: null, distance: null, time: null}
 
   async addRecord(){
-    console.log(this.state.date, this.state.distance, this.state.time)
+    console.log(this.state.date, this.state.distance, this.state.time);
     try {
       const response = await fetch('/api/record',
         {
@@ -92,7 +92,7 @@ class RecordsAddNew extends Component {
      <Form.Row>
        <Form.Group>
          <Form.Control
-           type="integer" 
+           type="integer"
            placeholder="Time"
            value={this.state.time}
            onChange={this.handleChangeTime.bind(this)}
@@ -100,7 +100,8 @@ class RecordsAddNew extends Component {
        </Form.Group>
      </Form.Row>
        <Button variant="outline-secondary" onClick={() => this.addRecord()}>
-         <Link to="/records/">SUBMIT</Link>
+         SUBMIT
+         {/*<Link to="/records/">SUBMIT</Link>*/}
        </Button>
    </Form>
    </Container>
