@@ -13,6 +13,25 @@ import Form from 'react-bootstrap/Form';
 
 class Reports extends Component {
 
+  state = {reports:[]}
+
+  componentWillMount(){
+    this.loadRecords()
+  }
+
+  async loadRecords() {
+    try {
+      let response = await fetch('/api/report',
+        {credentials: 'include'}
+      );
+      let responseJson = await response.json();
+      this.setState({reports: responseJson});
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async logOut(){
     try {
       const response = await fetch('/api/authentication',
@@ -34,6 +53,7 @@ class Reports extends Component {
   }
 
  render(){
+   console.log(this.state.reports)
   return(
     <Container>
       <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>      
@@ -42,23 +62,23 @@ class Reports extends Component {
         <Button variant="outline-secondary" onClick={() => this.logOut()}>LogOut</Button>
       </Form.Row>
       <ReactTable
-      //data={this.state.records}
+      data={this.state.reports}
       noDataText="Нет данных!"
       columns={[
         {
           Header: "Week",
-          //accessor: "date",
+          accessor: "week",
         },
         {
           Header: "Average distance",
-          //accessor: "distance"
+          accessor: "avgDist"
         },
         {
           Header: "Average speed",
-          //accessor: "distance"
+          accessor: "avgTime"
         },
       ]}
-      defaultPageSize={5}
+      defaultPageSize={10}
       className="-striped -highlight"/>
     </Container>
 

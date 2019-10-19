@@ -13,8 +13,10 @@ const authController = {
         return res.status(422).send()
       }
       req.logIn(user, async function(err) {
-        if (err) { return next(err); }
-        await res.status(201).send()
+        if (err) { 
+          return next(err); 
+        }
+        return res.status(201).send()
       });
     })(req, res, next);
   },

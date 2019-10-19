@@ -55,7 +55,7 @@ class Login extends Component {
           })
         });
         if (response.status === 201){
-            alert('LogIn');
+            //alert('LogIn');
             this.props.history.push('/records/');
         }
         if (response.status === 422){

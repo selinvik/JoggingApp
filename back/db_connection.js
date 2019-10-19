@@ -32,8 +32,8 @@ User.prototype.validPassword = function(password){
 const Record = sequelize.define('Records', { 
   id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   date      : { type: Sequelize.DATE},
-  distance  : { type: Sequelize.STRING},
-  time      : { type: Sequelize.TIME},
+  distance  : { type: Sequelize.INTEGER},
+  time      : { type: Sequelize.INTEGER},
 });
 
 User.hasMany(Record);
@@ -52,8 +52,8 @@ sequelize.sync({ force: true }).then(async () => {
 
   const record = await Record.create({
     date: '01-01-2018',
-    distance: '1000',
-    time: '5:36',
+    distance: 1000,
+    time: 536,
   });
   //adding user referrence to Record
   await record.setUser(user);

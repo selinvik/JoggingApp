@@ -98,7 +98,9 @@ class Records extends Component {
           {
             Header: "Edit",
             Cell: row => (
-              <img src='/home/viktor/Рабочий стол/JoggingApp/front/pictures/edit.png'></img>
+              <div>
+                <img src='/home/viktor/Рабочий стол/JoggingApp/front/pictures/edit.png' width='20px' height='20px'/>
+              </div>
             )
           },
           {

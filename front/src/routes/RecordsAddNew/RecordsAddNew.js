@@ -82,7 +82,7 @@ class RecordsAddNew extends Component {
      <Form.Row>
      <Form.Group>
          <Form.Control
-           type="text"
+           type="integer"
            placeholder="Distance"
            value={this.state.distance}
            onChange={this.handleChangeDistance.bind(this)}
@@ -92,7 +92,7 @@ class RecordsAddNew extends Component {
      <Form.Row>
        <Form.Group>
          <Form.Control
-           type="time" 
+           type="integer" 
            placeholder="Time"
            value={this.state.time}
            onChange={this.handleChangeTime.bind(this)}

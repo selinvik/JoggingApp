@@ -6,6 +6,7 @@ router.use(require('../middlewares/authentication'));
 
 router.use('/user', require('./user'));
 router.use('/record', require('./record'));
+router.use('/report', require('./report'));
 router.use('/authentication', require('./authentication'));
 
 router.use(require('../middlewares/error'));
