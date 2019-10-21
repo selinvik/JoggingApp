@@ -1,0 +1,11 @@
+.navigation-row{
+  border-bottom: 1px solid black;
+  width: 30%; 
+  margin-bottom: 30px;
+  margin-top: 30px;
+  font-size: 22px;
+}
+
+.add-record-button{
+  margin-top: 20px;
+}

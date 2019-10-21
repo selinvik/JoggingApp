@@ -39,9 +39,9 @@ class Records extends Component {
   }
 
   beautifyDate(date) {
-    var beautifydate = new Date(date);
-    beautifydate = (beautifydate.getDate() + '.' + beautifydate.getMonth() + '.' + beautifydate.getFullYear());
-    return beautifydate
+    var newDate = new Date(date);
+    newDate = (newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear());
+    return newDate
   }
 
   beautifyAvgSpeed(user) {
@@ -54,7 +54,7 @@ class Records extends Component {
   render(){
     return(
       <Container>
-        <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>
+        <Form.Row className='navigation-row'>
           <div style={{marginRight: '30px'}}>Records</div>
           <div style={{marginRight: '30px'}}><Link to="/reports/">Reports</Link></div>
         </Form.Row>
@@ -98,10 +98,12 @@ class Records extends Component {
           defaultPageSize={10}
           className="-striped -highlight"
         />
-
-        <Button variant="outline-secondary">
-          <Link to="/records/add-new/">Add new record</Link>
-        </Button>
+        <Link to="/records/add-new/">
+          <Button variant="outline-secondary" className='add-record-button'>
+            Add new record
+          </Button>
+        </Link>
+        
       </Container>
 
   )
