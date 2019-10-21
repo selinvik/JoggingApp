@@ -27,12 +27,10 @@ export async function login(loginEmail, loginPassword, history){
             })
         });
         if (response.status === 201){
-            //alert('LogIn');
             history.push('/records/');
         }
         if (response.status === 422){
           alert('Нету такого юзера');
-          //history.push('/');
         }
     } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');

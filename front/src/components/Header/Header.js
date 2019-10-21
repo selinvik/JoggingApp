@@ -35,7 +35,6 @@ class Header extends Component{
               },
             });
             if (response.status === 200){
-              alert('LogOut');
               this.props.history.push('/');
             }
           } catch (error) {
@@ -82,14 +81,19 @@ class Header extends Component{
                             onClick={() => login(this.state.loginEmail, this.state.loginPassword, this.props.history)}
                         >
                             Log in
-                            {/*<Link to="/records/">Log in</Link>*/}
                         </Button>
                         </Col>
                         </Row>
                         </div>
                     </>
                     :
-                    <Button variant="outline-secondary" onClick={() => this.logOut()}>LogOut</Button>
+                    <Button
+                        className="logout-button"
+                        variant="outline-secondary" 
+                        onClick={() => this.logOut()}
+                    >
+                        LogOut
+                    </Button>
                 }
 
             </Row>

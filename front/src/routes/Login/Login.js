@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './Login.css';
+import { login } from '../../utils/functions';
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom"
 
 import Button from 'react-bootstrap/Button';
@@ -30,7 +31,7 @@ class Login extends Component {
           })
         });
         if (response.status === 200){
-          alert('Аккаунт успешно создан');
+          login(this.state.email, this.state.password, this.props.history)
         }
       } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
