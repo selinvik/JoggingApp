@@ -47,7 +47,7 @@ class Records extends Component {
   beautifyAvgSpeed(user) {
     const distance = (parseInt(user.distance) / 1000)
     const time     = (parseInt(user.time) / 60)
-    const avgSpeed = (distance / time)
+    const avgSpeed = (distance / time).toFixed(2)
     return avgSpeed
   }
 
@@ -82,14 +82,16 @@ class Records extends Component {
             },
             {
               Header: "Edit",
+              width: 50,
               Cell: row => (
-                <div>
-                  <img src={EditImg} width='20px' height='20px'/>
-                </div>
+                <Link to="/records/edit/">
+                  <img src={EditImg} width='30px' height='30px'/>
+                </Link>
               )
             },
             {
               Header: "Delete",
+              width: 70,
               Cell: row => (
                 <img src={DeleteImg}></img>
               )
