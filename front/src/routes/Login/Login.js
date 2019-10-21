@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-d
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 class Login extends Component {
 
@@ -36,43 +37,6 @@ class Login extends Component {
         console.error(error);
       }
   }
-  /*auth(){
-    this.setState({isLoading: true}, async function(){
-      try {
-        const response = await fetch(API.url + getCurrentProject(this.props.location.pathname) + '/auth',
-          {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({
-              login: this.state.login + "",
-              password: this.state.password + "",
-            })
-          });
-        if (response.status == 200){
-          const answer = await response.json();
-          localStorage.setItem("id", answer.id);
-          localStorage.setItem("roleId", answer.roleId);
-          const project = this.props.params.project;
-          function getSectionUrl(section){
-            return '/' + project + '/' + section + '/home';
-          }
-          //TODO this.props.history.push deprecated, but context is not accessable
-          switch(answer.roleId){
-            case Roles.admin: this.props.history.push(getSectionUrl('admin')); break;
-            case Roles.coordinator: this.props.history.push(getSectionUrl('coordinator')); break;
-            case Roles.teacher: this.props.history.push(getSectionUrl('teacher')); break;
-            case Roles.user: this.props.history.push(getSectionUrl('user')); break;
-            default: alert('Не верный пользователь!');
-          }
-        } else {
-          alert('Ошибка авторизации!');
-        }
-      } catch (error) {
-        alert('Произошла ошибка в ходе авторизации!');
-        console.error(error);
-      }
-    });
-  }*/
 
   handleChangeFirstName(event) {
     this.setState({
@@ -107,12 +71,12 @@ class Login extends Component {
   render(){
     return (
       <Container>
-        Create an account
-
-        <Form>
-          <Form.Row>
+        <Row className='login-title'>Create an account</Row>
+        <Form className='form-box'>
+          <Form.Row className='name-row'>
             <Form.Group>
               <Form.Control
+                className='firstName-input'
                 type="text"
                 placeholder="First Name"
                 value={this.state.firstName}
@@ -121,6 +85,7 @@ class Login extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Control
+                className='lastName-input'
                 type="text"
                 placeholder="Last Name"
                 value={this.state.lastName}
@@ -128,9 +93,10 @@ class Login extends Component {
               />
             </Form.Group>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='email-row'>
             <Form.Group>
               <Form.Control
+                className='emailName-input'
                 type="email"
                 placeholder="Email"
                 value={this.state.email}
@@ -138,9 +104,10 @@ class Login extends Component {
               />
             </Form.Group>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='password-row'>
             <Form.Group>
               <Form.Control
+                className='password-input'
                 type="password"
                 placeholder="Password"
                 value={this.state.password}
@@ -148,9 +115,10 @@ class Login extends Component {
               />
             </Form.Group>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='passwordRepeat-row'>
             <Form.Group>
               <Form.Control
+                className='passwordRepeat-input'
                 type="password"
                 placeholder="Repeat password"
                 value={this.state.passwordRepeat}
@@ -159,7 +127,7 @@ class Login extends Component {
             </Form.Group>
           </Form.Row>
             <Button variant="outline-secondary" onClick={() => this.createAccount()}>
-              <Link /*to="/records/"*/>Create an account</Link>
+              Create an account
             </Button>
         </Form>
       </Container>

@@ -1,1 +1,52 @@
+.login-title{
+  justify-content: center;
+  font-size: 42px;
+  letter-spacing: 3px;
+  margin-top: 50px;
+}
 
+.form-box{
+  margin: 50px auto auto auto;
+  width: 400px;
+}
+
+.form-box .name-row{
+  width: 100%;
+  margin-left: 0px;
+  justify-content: space-between;
+}
+
+.firstName-input{
+  width: 170px;
+}
+
+.lastName-input{
+  width: 170px;
+}
+
+.form-box .email-row{
+  width: 100%;
+  margin-left: 0px;
+}
+
+.form-box .email-row .emailName-input{
+  width: 400px;
+}
+
+.form-box .password-row{
+  width: 100%;
+  margin-left: 0px;
+}
+
+.form-box .password-row .password-input{
+  width: 400px;
+}
+
+.form-box .passwordRepeat-row{
+  width: 100%;
+  margin-left: 0px;
+}
+
+.form-box .passwordRepeat-row .passwordRepeat-input{
+  width: 400px;
+}

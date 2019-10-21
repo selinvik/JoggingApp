@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import classes from './Header.css'
 import { withRouter } from "react-router";
 
 import { login } from '../../utils/functions';
@@ -45,24 +46,28 @@ class Header extends Component{
 
     render(){
         return (
-            <Row>
-                <Col>Jogging App</Col>
+            <Row className='header'>
+                <Col className='header-title'>Jogging App</Col>
                 {
                     this.props.location.pathname === "/" ?
                     <>
+                    <div>
+                        <Row>
                         <Col>
                         <Form.Group>
-                        <Form.Control
-                            type="email"
-                            placeholder="Email"
-                            value={this.state.loginEmail}
-                            onChange={this.handleChangeLoginEmail.bind(this)}
-                        />
+                            <Form.Control
+                                className="email-input"
+                                type="email"
+                                placeholder="Email"
+                                value={this.state.loginEmail}
+                                onChange={this.handleChangeLoginEmail.bind(this)}
+                            />
                         </Form.Group>
                         </Col>
                         <Col>
                         <Form.Group>
                             <Form.Control
+                                className="password-input"
                                 type="password"
                                 placeholder="Password"
                                 value={this.state.loginPassword}
@@ -72,6 +77,7 @@ class Header extends Component{
                         </Col>
                         <Col>
                         <Button
+                            className="login-button"
                             variant="outline-secondary"
                             onClick={() => login(this.state.loginEmail, this.state.loginPassword, this.props.history)}
                         >
@@ -79,6 +85,8 @@ class Header extends Component{
                             {/*<Link to="/records/">Log in</Link>*/}
                         </Button>
                         </Col>
+                        </Row>
+                        </div>
                     </>
                     :
                     <Button variant="outline-secondary" onClick={() => this.logOut()}>LogOut</Button>
