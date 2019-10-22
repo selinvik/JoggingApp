@@ -39,6 +39,32 @@ class Records extends Component {
     }
   }
 
+  async deleteRecord(id) {
+    try {
+      const response = await fetch('/api/record',
+        {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id : id
+          })
+        });
+        if (response.status === 200){
+          this.loadRecords();
+        }
+        if (response.status === 401){
+          alert('У вас не прав');
+        }
+      } catch (error) {
+        alert('Произошла ошибка в ходе авторизации!');
+        console.error(error);
+      }
+  }
+
   beautifyDate(date) {
     var newDate = new Date(date);
     newDate = (newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear());
@@ -96,9 +122,10 @@ class Records extends Component {
             },
             {
               Header: "Delete",
+              accessor: "id",
               width: 70,
               Cell: row => (
-                <img src={DeleteImg}></img>
+                <img onClick={() => this.deleteRecord(row.value)} src={DeleteImg} style={{cursor: 'pointer'}}></img>
               )
             }
           ]}
