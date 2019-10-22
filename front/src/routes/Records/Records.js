@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import matchSorter from 'match-sorter'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -88,13 +87,16 @@ class Records extends Component {
         <ReactTable
           data={this.state.records}
           noDataText="Нет данных!"
+          sorted={[
+            {
+             id: 'date',
+             desc: false
+            }
+          ]}
           columns={[
             {
               Header: "Date",
-              accessor: "date",
-              filterMethod: (filter, rows) =>
-                matchSorter(rows, filter.value, { keys: ["date"] }),
-              filterAll: true,
+              accessor: 'date',
               Cell: row => this.beautifyDate(row.value)
             },
             {

@@ -17,7 +17,6 @@ class RecordsAddNew extends Component {
   state = {date: null, distance: null, time: null}
 
   async addRecord(){
-    console.log(this.state.date, this.state.distance, this.state.time);
     try {
       const response = await fetch('/api/record',
         {
@@ -64,8 +63,6 @@ class RecordsAddNew extends Component {
   }
 
  render(){
-  const date = new Date();
-  console.log(date)
   return(
     <Container>
       <Row className='add-title-row'>
@@ -76,7 +73,7 @@ class RecordsAddNew extends Component {
           <Form.Group>
             <Form.Control
               type="date"
-              placeholder={date}
+              //placeholder={date}
               value={this.state.date}
               onChange={this.handleChangeDate.bind(this)}
             />
