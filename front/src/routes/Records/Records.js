@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import matchSorter from 'match-sorter'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -65,6 +66,9 @@ class Records extends Component {
             {
               Header: "Date",
               accessor: "date",
+              filterMethod: (filter, rows) =>
+                matchSorter(rows, filter.value, { keys: ["date"] }),
+              filterAll: true,
               Cell: row => this.beautifyDate(row.value)
             },
             {
@@ -82,9 +86,10 @@ class Records extends Component {
             },
             {
               Header: "Edit",
+              accessor: "id",
               width: 50,
               Cell: row => (
-                <Link to="/records/edit/">
+                <Link to={'/records/edit/' + row.value}>
                   <img src={EditImg} width='30px' height='30px'/>
                 </Link>
               )

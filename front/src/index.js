@@ -10,6 +10,7 @@ import Records from './routes/Records/Records';
 import RecordsAddNew from './routes/RecordsAddNew/RecordsAddNew';
 import Reports from './routes/Reports/Reports';
 import Header from './components/Header/Header';
+import RecordsEdit from './routes/RecordsEdit/RecordsEdit';
 
 ReactDOM.render((
     <Router>
@@ -18,6 +19,7 @@ ReactDOM.render((
         <Route path="/" exact component={Login} />
         <Route path="/records/" exact component={Records} />
         <Route path="/records/add-new/" exact component={RecordsAddNew} />
+        <Route path="/records/edit/:id" component={RecordsEdit} />
         <Route path="/reports/" exact component={Reports} />
       </Switch>
     </Router>

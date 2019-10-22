@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import './RecordsAddNew.css'
+import './RecordsEdit.css'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -12,22 +12,22 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
-class RecordsAddNew extends Component {
+class RecordsEdit extends Component {
 
   state = {date: null, distance: null, time: null}
 
-  async addRecord(){
-    console.log(this.state.date, this.state.distance, this.state.time);
+  async addRecord(id){
     try {
       const response = await fetch('/api/record',
         {
-          method: 'POST',
+          method: 'PUT',
           credentials: 'include',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            id        : id,
             date      : this.state.date + "",
             distance  : this.state.distance + "",
             time      : this.state.time + ""
@@ -64,51 +64,50 @@ class RecordsAddNew extends Component {
   }
 
  render(){
-  const date = new Date();
-  console.log(date)
+  const id = +/\d+/.exec(this.props.location.pathname)
   return(
-    <Container>
-      <Row className='add-title-row'>
-        Add new record
-      </Row>
-      <Form>
-        <Form.Row>
-          <Form.Group>
-            <Form.Control
-              type="date"
-              placeholder={date}
-              value={this.state.date}
-              onChange={this.handleChangeDate.bind(this)}
-            />
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-        <Form.Group>
-            <Form.Control
-              type="integer"
-              placeholder="Distance"
-              value={this.state.distance}
-              onChange={this.handleChangeDistance.bind(this)}
-            />
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group>
-            <Form.Control
-              type="integer"
-              placeholder="Time"
-              value={this.state.time}
-              onChange={this.handleChangeTime.bind(this)}
-            />
-          </Form.Group>
-        </Form.Row>
-          <Button variant="outline-secondary" onClick={() => this.addRecord()}>
-            SUBMIT
-          </Button>
-      </Form>
-    </Container>
+   <Container>
+    <Row className='edit-title-row'>
+      Edit Record
+    </Row>
+    <Form>
+     <Form.Row>
+       <Form.Group>
+         <Form.Control
+          type="date"
+          placeholder="Date"
+          value={this.state.date}
+          onChange={this.handleChangeDate.bind(this)}
+         />
+       </Form.Group>
+     </Form.Row>
+     <Form.Row>
+     <Form.Group>
+         <Form.Control
+           type="integer"
+           placeholder="Distance"
+           value={this.state.distance}
+           onChange={this.handleChangeDistance.bind(this)}
+         />
+       </Form.Group>
+     </Form.Row>
+     <Form.Row>
+       <Form.Group>
+         <Form.Control
+           type="integer"
+           placeholder="Time"
+           value={this.state.time}
+           onChange={this.handleChangeTime.bind(this)}
+         />
+       </Form.Group>
+     </Form.Row>
+       <Button variant="outline-secondary" onClick={() => this.addRecord(id)}>
+         CHANGE
+       </Button>
+   </Form>
+   </Container>
   )
  }
 }
 
-export default RecordsAddNew
+export default RecordsEdit
