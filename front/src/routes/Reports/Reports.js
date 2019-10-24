@@ -36,7 +36,6 @@ class Reports extends Component {
   }
 
  render(){
-  console.log(this.state.reports)
   return(
     <Container>
       <Form.Row className='navigation-row'>
@@ -49,7 +48,10 @@ class Reports extends Component {
         columns={[
           {
             Header: "Week",
-            accessor: "week",
+            id: 'row',
+            Cell: (row) => {
+              return <div>{row.index + 1}</div>;
+            }
           },
           {
             Header: "Average distance (Metres)",
