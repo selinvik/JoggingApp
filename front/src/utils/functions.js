@@ -37,11 +37,32 @@ export function beautifyDate(date) {
     var dateDisplay = new Date(date);
     dateDisplay = ('0' + dateDisplay.getDate()).slice(-2) + '/' + ('0' + (dateDisplay.getMonth()+1)).slice(-2) + '/' + dateDisplay.getFullYear();
     return dateDisplay;
-  }
+}
 
 export function avgSpeed(record) {
     return ((record.distance / 1000) / (record.time / 3600  % 24)).toFixed(2);
-  }
+}
+
+export function validateDate(date){
+    const now = new Date();
+    const userDate = new Date(date)
+    if (userDate.getFullYear() > now.getFullYear()){
+        return false
+    }
+    else if (userDate.getFullYear() === now.getFullYear()){
+        if (userDate.getMonth() > now.getMonth()){
+            return false
+        }
+        else if (userDate.getMonth() === now.getMonth()){
+            if (userDate.getDate() > now.getDate()){
+                return false
+            }
+            else return true
+        }
+        else return true
+    }
+    else return true
+}
 
 export async function login(loginEmail, loginPassword, history){
     try {

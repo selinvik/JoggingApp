@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './RecordsAddNew.css'
-import { beautifyDate, stringToSeconds } from '../../utils/functions'
+import { beautifyDate, stringToSeconds, validateDate } from '../../utils/functions'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -21,37 +21,42 @@ class RecordsAddNew extends Component {
     const time = stringToSeconds(this.state.time);
     const date = this.state.date;
     const distance = parseInt(this.state.distance);
-   
-    try {
-      const response = await fetch('/api/record',
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            date      : date + "",
-            distance  : distance + "",
-            time      : time + ""
-          })
-        });
-        if (response.status === 200){
-          this.props.history.push('/records/');
-        }
-        if (response.status === 401){
-          alert('У вас не прав');
-        }
-      } catch (error) {
-        alert('Произошла ошибка в ходе авторизации!');
-        console.error(error);
-      }
+    
+    if (validateDate(date) === false){
+      alert('Введите правильно данные')
+    }
+    else {
+      try {
+        const response = await fetch('/api/record',
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              date      : date + "",
+              distance  : distance + "",
+              time      : time + ""
+            })
+          });
+          if (response.status === 200){
+            this.props.history.push('/records/');
+          }
+          if (response.status === 401){
+            alert('У вас не прав');
+          }
+        } catch (error) {
+          alert('Произошла ошибка в ходе авторизации!');
+          console.error(error);
+      }  
+    }
   }
 
   handleChangeDate(event) {
     this.setState({
-        date: event.target.value
+        date: event.target.value,
     })
   }
 
