@@ -3,13 +3,40 @@ function addZeroes(time){
 }
 
 export function secondsToString(seconds){
-    //TODO: implement
-    return seconds;
+    var timeFormat = (function (){
+        function num(val){
+            val = Math.floor(val);
+            return val < 10 ? '0' + val : val;
+        }
+    
+        return function (ms){
+            var sec = ms / 1000
+              , hours = sec / 3600  % 24
+              , minutes = sec / 60 % 60
+              , seconds = sec % 60
+            ;
+    
+            return num(hours) + ":" + num(minutes) + ":" + num(seconds);
+        };
+    })()
+    return timeFormat(seconds * 1000);
 }
 
 export function stringToSeconds(str){
-    //TODO: implement
-    return str;
+    const time = str.split(':');
+    var seconds = 0, m = 1;
+
+    while (time.length > 0) {
+        seconds += m * parseInt(time.pop(), 10);
+        m *= 60;
+    }
+    return seconds;
+}
+
+export function beautifyDate(date) {
+    var newDate = new Date(date);
+    newDate = (newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear());
+    return newDate
 }
 
 export async function login(loginEmail, loginPassword, history){

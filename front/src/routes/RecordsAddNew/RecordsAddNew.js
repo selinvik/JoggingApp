@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './RecordsAddNew.css'
+import { beautifyDate, stringToSeconds } from '../../utils/functions'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -17,6 +18,10 @@ class RecordsAddNew extends Component {
   state = {date: null, distance: null, time: null}
 
   async addRecord(){
+    const time = stringToSeconds(this.state.time);
+    const date = this.state.date;
+    const distance = parseInt(this.state.distance);
+   
     try {
       const response = await fetch('/api/record',
         {
@@ -27,9 +32,9 @@ class RecordsAddNew extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            date      : this.state.date + "",
-            distance  : this.state.distance + "",
-            time      : this.state.time + ""
+            date      : date + "",
+            distance  : distance + "",
+            time      : time + ""
           })
         });
         if (response.status === 200){
@@ -73,7 +78,6 @@ class RecordsAddNew extends Component {
           <Form.Group>
             <Form.Control
               type="date"
-              //placeholder={date}
               value={this.state.date}
               onChange={this.handleChangeDate.bind(this)}
             />
@@ -82,8 +86,8 @@ class RecordsAddNew extends Component {
         <Form.Row>
         <Form.Group>
             <Form.Control
-              type="integer"
-              placeholder="Distance"
+              type="text"
+              placeholder="Distance(m)"
               value={this.state.distance}
               onChange={this.handleChangeDistance.bind(this)}
             />
@@ -92,8 +96,8 @@ class RecordsAddNew extends Component {
         <Form.Row>
           <Form.Group>
             <Form.Control
-              type="integer"
-              placeholder="Time"
+              type="text"
+              placeholder="00:00:00"
               value={this.state.time}
               onChange={this.handleChangeTime.bind(this)}
             />

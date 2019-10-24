@@ -97,6 +97,8 @@ class Records extends Component {
             {
               Header: "Date",
               accessor: 'date',
+              /*Filter: NumberRangeColumnFilter,
+              filter: 'between',*/
               Cell: row => this.beautifyDate(row.value)
             },
             {
