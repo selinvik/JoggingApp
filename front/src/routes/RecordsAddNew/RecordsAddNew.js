@@ -18,12 +18,16 @@ class RecordsAddNew extends Component {
   state = {date: null, distance: null, time: null}
 
   async addRecord(){
-    const time = stringToSeconds(this.state.time);
+    if(this.state.date === null || this.state.distance === null || this.state.time === null){
+      alert('Заполните все поля')
+      return;
+    }
     const date = this.state.date;
     const distance = parseInt(this.state.distance);
+    const time = stringToSeconds(this.state.time);
     
     if (validateDate(date) === false){
-      alert('Введите правильно данные')
+      alert('Введите правильно дату')
     }
     else {
       try {
@@ -83,6 +87,7 @@ class RecordsAddNew extends Component {
           <Form.Group>
             <Form.Control
               type="date"
+              placeholder={this.state.date}
               value={this.state.date}
               onChange={this.handleChangeDate.bind(this)}
             />

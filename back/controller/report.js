@@ -9,8 +9,8 @@ const reportController = {
       const reports = await Record.findAll({
         attributes: [
           [Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'week'], 
-          [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('distance')), 'INTEGER'), 'avgDist'], 
-          [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('time')), 'INTEGER'), 'avgTime']],
+          [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('distance')), 'INTEGER'), 'avgWeekDist'], 
+          [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('time')), 'INTEGER'), 'avgWeekTime']],
         group: ['week'],
         order: [[Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'ASC']], 
         where: {UserId: req.user.id}

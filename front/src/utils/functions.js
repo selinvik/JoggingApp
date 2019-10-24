@@ -43,6 +43,10 @@ export function avgSpeed(record) {
     return ((record.distance / 1000) / (record.time / 3600  % 24)).toFixed(2);
 }
 
+export function avgWeekSpeed(record) {
+    return ((record.avgWeekDist / 1000) / (record.avgWeekTime / 3600  % 24)).toFixed(2);
+}
+
 export function validateDate(date){
     const now = new Date();
     const userDate = new Date(date)

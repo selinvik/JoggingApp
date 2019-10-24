@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import './Reports.css';
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -10,6 +11,8 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+
+import { avgWeekSpeed } from '../../utils/functions';
 
 class Reports extends Component {
 
@@ -33,10 +36,10 @@ class Reports extends Component {
   }
 
  render(){
-   console.log(this.state.reports)
+  console.log(this.state.reports)
   return(
     <Container>
-      <Form.Row style={{borderBottom: '1px solid black', width: '30%', marginBottom: '20px'}}>
+      <Form.Row className='navigation-row'>
         <div style={{marginRight: '30px'}}><Link to="/records/">Records</Link></div>
         <div style={{marginRight: '30px'}}>Reports</div>
       </Form.Row>
@@ -49,12 +52,12 @@ class Reports extends Component {
             accessor: "week",
           },
           {
-            Header: "Average distance",
-            accessor: "avgDist"
+            Header: "Average distance (Metres)",
+            accessor: "avgWeekDist"
           },
           {
-            Header: "Average speed",
-            accessor: "avgTime"
+            Header: "Average speed (Km/hr)",
+            Cell: row => avgWeekSpeed(row.original)
           },
         ]}
         defaultPageSize={10}
