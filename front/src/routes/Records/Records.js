@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { secondsToString } from '../../utils/functions';
+import { secondsToString, avgSpeed } from '../../utils/functions';
 
 import EditImg from './pictures/edit.png';
 import DeleteImg from './pictures/delete.png';
@@ -70,13 +70,6 @@ class Records extends Component {
     return newDate
   }
 
-  beautifyAvgSpeed(user) {
-    const distance = (parseInt(user.distance) / 1000)
-    const time     = (parseInt(user.time) / 60)
-    const avgSpeed = (distance / time).toFixed(2)
-    return avgSpeed
-  }
-
   render(){
     return(
       <Container>
@@ -102,7 +95,7 @@ class Records extends Component {
               Cell: row => this.beautifyDate(row.value)
             },
             {
-              Header: "Distance",
+              Header: "Distance (Metres)",
               accessor: "distance"
             },
             {
@@ -111,8 +104,8 @@ class Records extends Component {
               Cell: row => secondsToString(row.value)
             },
             {
-              Header: "Average speed",
-              Cell: row => this.beautifyAvgSpeed(row.original)
+              Header: "Average speed (Km/hr)",
+              Cell: row => avgSpeed(row.original)
             },
             {
               Header: "Edit",

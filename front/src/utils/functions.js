@@ -39,6 +39,10 @@ export function beautifyDate(date) {
     return newDate
 }
 
+export function avgSpeed(record) {
+    return ((record.distance / 1000) / (record.time / 3600  % 24)).toFixed(2);
+  }
+
 export async function login(loginEmail, loginPassword, history){
     try {
       const response = await fetch('/api/authentication',
