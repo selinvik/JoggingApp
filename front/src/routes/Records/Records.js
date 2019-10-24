@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { secondsToString, avgSpeed } from '../../utils/functions';
+import { secondsToString, avgSpeed, beautifyDate } from '../../utils/functions';
 
 import EditImg from './pictures/edit.png';
 import DeleteImg from './pictures/delete.png';
@@ -64,12 +64,6 @@ class Records extends Component {
       }
   }
 
-  beautifyDate(date) {
-    var newDate = new Date(date);
-    newDate = (newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear());
-    return newDate
-  }
-
   render(){
     return(
       <Container>
@@ -92,7 +86,7 @@ class Records extends Component {
               accessor: 'date',
               /*Filter: NumberRangeColumnFilter,
               filter: 'between',*/
-              Cell: row => this.beautifyDate(row.value)
+              Cell: row => beautifyDate(row.value)
             },
             {
               Header: "Distance (Metres)",

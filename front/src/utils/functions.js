@@ -34,10 +34,10 @@ export function stringToSeconds(str){
 }
 
 export function beautifyDate(date) {
-    var newDate = new Date(date);
-    newDate = (newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear());
-    return newDate
-}
+    var dateDisplay = new Date(date);
+    dateDisplay = ('0' + dateDisplay.getDate()).slice(-2) + '/' + ('0' + (dateDisplay.getMonth()+1)).slice(-2) + '/' + dateDisplay.getFullYear();
+    return dateDisplay;
+  }
 
 export function avgSpeed(record) {
     return ((record.distance / 1000) / (record.time / 3600  % 24)).toFixed(2);
