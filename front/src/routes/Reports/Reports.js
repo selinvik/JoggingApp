@@ -13,6 +13,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 import { avgWeekSpeed } from '../../utils/functions';
+import Navigation from '../../components/Header/Navigation';
 
 class Reports extends Component {
 
@@ -38,10 +39,7 @@ class Reports extends Component {
  render(){
   return(
     <Container>
-      <Form.Row className='navigation-row'>
-        <div style={{marginRight: '30px'}}><Link to="/records/">Records</Link></div>
-        <div style={{marginRight: '30px'}}>Reports</div>
-      </Form.Row>
+      <Navigation pathname={this.props.location.pathname}/>
       <ReactTable
         data={this.state.reports}
         noDataText="Нет данных!"

@@ -15,6 +15,7 @@ import { secondsToString, avgSpeed, beautifyDate } from '../../utils/functions';
 
 import EditImg from './pictures/edit.png';
 import DeleteImg from './pictures/delete.png';
+import Navigation from '../../components/Header/Navigation';
 
 class Records extends Component {
 
@@ -67,10 +68,7 @@ class Records extends Component {
   render(){
     return(
       <Container>
-        <Form.Row className='navigation-row'>
-          <div style={{marginRight: '30px'}}>Records</div>
-          <div style={{marginRight: '30px'}}><Link to="/reports/">Reports</Link></div>
-        </Form.Row>
+        <Navigation pathname={this.props.location.pathname}/>
         <ReactTable
           data={this.state.records}
           noDataText="Нет данных!"
