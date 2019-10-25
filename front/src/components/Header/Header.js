@@ -80,7 +80,7 @@ class Header extends Component{
                             variant="outline-secondary"
                             onClick={() => login(this.state.loginEmail, this.state.loginPassword, this.props.history)}
                         >
-                            Log in
+                            Login
                         </Button>
                         </Col>
                         </Row>
@@ -92,7 +92,7 @@ class Header extends Component{
                         variant="outline-secondary" 
                         onClick={() => this.logOut()}
                     >
-                        LogOut
+                        Logout
                     </Button>
                 }
 

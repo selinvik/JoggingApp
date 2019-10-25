@@ -1,6 +1,7 @@
 var session = require("express-session");
 const Sequelize = require('sequelize');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
+const bcrypt = require('bcrypt');
 
 const sequelize = new Sequelize('admin', 'postgres', '3345', {
   host: 'localhost',
@@ -21,10 +22,10 @@ const User = sequelize.define('Users', {
 
 
 User.prototype.validPassword = function(password){
-  console.log('TODO: check password here' + password);
-  console.log('current user password: ', this.dataValues.password);
   if (password === this.dataValues.password){
-    return true;
+    return bcrypt.compare(password, this.dataValues.password)
+      .then(res => res)
+      .catch(() => null)
   }
   else return false
 }

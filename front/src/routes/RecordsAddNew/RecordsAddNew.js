@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './RecordsAddNew.css'
-import { beautifyDate, stringToSeconds, validateDate } from '../../utils/functions'
+import { stringToSeconds, validateDate } from '../../utils/functions'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';

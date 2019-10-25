@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './RecordsEdit.css'
+import { stringToSeconds, validateDate } from '../../utils/functions'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -16,33 +17,45 @@ class RecordsEdit extends Component {
 
   state = {date: null, distance: null, time: null}
 
-  async addRecord(id){
-    try {
-      const response = await fetch('/api/record',
-        {
-          method: 'PUT',
-          credentials: 'include',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id        : id,
-            date      : this.state.date + "",
-            distance  : this.state.distance + "",
-            time      : this.state.time + ""
-          })
-        });
-        if (response.status === 200){
-          this.props.history.push('/records/');
+  async changeRecord(id){
+    if(this.state.date === null || this.state.distance === null || this.state.time === null){
+      alert('Заполните все поля')
+      return;
+    }
+    const date = this.state.date;
+    const distance = parseInt(this.state.distance);
+    const time = stringToSeconds(this.state.time);
+    if (validateDate(date) === false){
+      alert('Введите правильно дату')
+    }
+    else{
+      try {
+        const response = await fetch('/api/record',
+          {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id        : id,
+              date      : date + "",
+              distance  : distance + "",
+              time      : time + ""
+            })
+          });
+          if (response.status === 200){
+            this.props.history.push('/records/');
+          }
+          if (response.status === 401){
+            alert('У вас не прав');
+          }
+        } catch (error) {
+          alert('Произошла ошибка в ходе авторизации!');
+          console.error(error);
         }
-        if (response.status === 401){
-          alert('У вас не прав');
-        }
-      } catch (error) {
-        alert('Произошла ошибка в ходе авторизации!');
-        console.error(error);
-      }
+    }
   }
 
   handleChangeDate(event) {
@@ -84,8 +97,8 @@ class RecordsEdit extends Component {
      <Form.Row>
      <Form.Group>
          <Form.Control
-           type="integer"
-           placeholder="Distance"
+           type="text"
+           placeholder="Distance(m)"
            value={this.state.distance}
            onChange={this.handleChangeDistance.bind(this)}
          />
@@ -94,14 +107,14 @@ class RecordsEdit extends Component {
      <Form.Row>
        <Form.Group>
          <Form.Control
-           type="integer"
-           placeholder="Time"
+           type="text"
+           placeholder="00:00:00"
            value={this.state.time}
            onChange={this.handleChangeTime.bind(this)}
          />
        </Form.Group>
      </Form.Row>
-       <Button variant="outline-secondary" onClick={() => this.addRecord(id)}>
+       <Button variant="outline-secondary" onClick={() => this.changeRecord(id)}>
          CHANGE
        </Button>
    </Form>
