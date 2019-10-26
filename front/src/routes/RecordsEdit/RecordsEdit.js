@@ -2,8 +2,8 @@ import React from 'react';
 import { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
-import ReactTable from "react-table";
-import "react-table/react-table.css";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 import './RecordsEdit.css'
 import { stringToSeconds, validateDate } from '../../utils/functions'
 
@@ -17,7 +17,12 @@ class RecordsEdit extends Component {
 
   state = {date: new Date(), distance: null, time: null}
 
-  async changeRecord(id){
+  componentDidMount(){
+    console.log(this.props.match.params.id);
+  }
+
+  async changeRecord(){
+    const id = this.props.match.params.id;
     if(this.state.date === null || this.state.distance === null || this.state.time === null){
       alert('Заполните все поля')
       return;
@@ -77,8 +82,6 @@ class RecordsEdit extends Component {
   }
 
  render(){
-  const dateNow = this.state.date.getFullYear() + "-" + ('0' + (this.state.date.getMonth()+1)).slice(-2) + "-" + ('0' + this.state.date.getDate()).slice(-2)
-  const id = +/\d+/.exec(this.props.location.pathname)
   return(
    <Container>
     <Row className='edit-title-row'>
@@ -87,11 +90,10 @@ class RecordsEdit extends Component {
     <Form>
      <Form.Row>
        <Form.Group>
-         <Form.Control
-          type="date"
-          value={dateNow}
+        <DatePicker
+          selected={this.state.date}
           onChange={this.handleChangeDate.bind(this)}
-         />
+        />
        </Form.Group>
      </Form.Row>
      <Form.Row>
@@ -114,7 +116,7 @@ class RecordsEdit extends Component {
          />
        </Form.Group>
      </Form.Row>
-       <Button variant="outline-secondary" onClick={() => this.changeRecord(id)}>
+       <Button variant="outline-secondary" onClick={this.changeRecord}>
          CHANGE
        </Button>
    </Form>

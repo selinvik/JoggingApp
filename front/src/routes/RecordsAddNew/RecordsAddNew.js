@@ -1,9 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
-import ReactTable from "react-table";
-import "react-table/react-table.css";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 import './RecordsAddNew.css'
 import { stringToSeconds, validateDate } from '../../utils/functions'
 
@@ -25,7 +24,7 @@ class RecordsAddNew extends Component {
     const date = this.state.date;
     const distance = parseInt(this.state.distance);
     const time = stringToSeconds(this.state.time);
-    
+
     if (validateDate(date) === false){
       alert('Введите правильно дату')
     }
@@ -54,13 +53,13 @@ class RecordsAddNew extends Component {
         } catch (error) {
           alert('Произошла ошибка в ходе авторизации!');
           console.error(error);
-      }  
+      }
     }
   }
 
-  handleChangeDate(event) {
+  handleChangeDate(date) {
     this.setState({
-        date: event.target.value,
+        date: date,
     })
   }
 
@@ -77,18 +76,18 @@ class RecordsAddNew extends Component {
   }
 
  render(){
-  const dateNow = this.state.date.getFullYear() + "-" + ('0' + (this.state.date.getMonth()+1)).slice(-2) + "-" + ('0' + this.state.date.getDate()).slice(-2)
   return(
     <Container>
       <Row className='add-title-row'>
         Add new record
       </Row>
+
+
       <Form>
         <Form.Row>
           <Form.Group>
-            <Form.Control
-              type="date"
-              value={dateNow}
+            <DatePicker
+              selected={this.state.date}
               onChange={this.handleChangeDate.bind(this)}
             />
           </Form.Group>
