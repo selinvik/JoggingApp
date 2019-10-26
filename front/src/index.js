@@ -18,9 +18,13 @@ ReactDOM.render((
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/records/" exact component={Records} />
+        <Route path="/reports/" exact component={Reports} />
         <Route path="/records/add-new/" exact component={RecordsAddNew} />
         <Route path="/records/edit/:id" component={RecordsEdit} />
-        <Route path="/reports/" exact component={Reports} />
+        {/*
+        <Route path="/records/add/" exact component={RecordEditor} />
+        <Route path="/records/edit/:id" component={RecordEditor}/>
+        */}
       </Switch>
     </Router>
 ), document.getElementById('root'));
