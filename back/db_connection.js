@@ -12,24 +12,20 @@ const SessionStore = new SequelizeStore({
   db: sequelize
 })
 
-const User = sequelize.define('Users', { 
-  id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true }, 
+const User = sequelize.define('Users', {
+  id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   firstName : { type: Sequelize.STRING},
   lastName  : { type: Sequelize.STRING},
   email     : { type: Sequelize.STRING},
-  password  : { type: Sequelize.STRING}, 
+  password  : { type: Sequelize.STRING},
 });
 
 
 User.prototype.validPassword = async function(password){
-  const validation = await bcrypt.compare(password, this.dataValues.password)
-    .then(res => res)
-    .catch(() => null)
-    console.log(validation)
-    return validation
+  return await bcrypt.compare(password, this.dataValues.password);
 }
 
-const Record = sequelize.define('Records', { 
+const Record = sequelize.define('Records', {
   id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   date      : { type: Sequelize.DATE},
   distance  : { type: Sequelize.INTEGER},

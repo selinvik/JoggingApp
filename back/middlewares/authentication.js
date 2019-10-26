@@ -39,7 +39,9 @@ passport.use(new LocalStrategy({
         console.log('a');
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
+      /*const validPassword = await user.validPassword(password);
+      console.log(`password: ${validPassword}`);*/
+      if (!(await user.validPassword(password))) {
         console.log('b');
         return done(null, false, { message: 'Incorrect password.' });
       }
