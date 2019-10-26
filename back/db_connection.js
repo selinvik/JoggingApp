@@ -21,13 +21,12 @@ const User = sequelize.define('Users', {
 });
 
 
-User.prototype.validPassword = function(password){
-  if (password === this.dataValues.password){
-    return bcrypt.compare(password, this.dataValues.password)
-      .then(res => res)
-      .catch(() => null)
-  }
-  else return false
+User.prototype.validPassword = async function(password){
+  const validation = await bcrypt.compare(password, this.dataValues.password)
+    .then(res => res)
+    .catch(() => null)
+    console.log(validation)
+    return validation
 }
 
 const Record = sequelize.define('Records', { 
