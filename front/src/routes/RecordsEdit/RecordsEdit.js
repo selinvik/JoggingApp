@@ -15,7 +15,7 @@ import Form from 'react-bootstrap/Form';
 
 class RecordsEdit extends Component {
 
-  state = {date: null, distance: null, time: null}
+  state = {date: new Date(), distance: null, time: null}
 
   async changeRecord(id){
     if(this.state.date === null || this.state.distance === null || this.state.time === null){
@@ -77,6 +77,7 @@ class RecordsEdit extends Component {
   }
 
  render(){
+  const dateNow = this.state.date.getFullYear() + "-" + ('0' + (this.state.date.getMonth()+1)).slice(-2) + "-" + ('0' + this.state.date.getDate()).slice(-2)
   const id = +/\d+/.exec(this.props.location.pathname)
   return(
    <Container>
@@ -88,8 +89,7 @@ class RecordsEdit extends Component {
        <Form.Group>
          <Form.Control
           type="date"
-          placeholder="Date"
-          value={this.state.date}
+          value={dateNow}
           onChange={this.handleChangeDate.bind(this)}
          />
        </Form.Group>

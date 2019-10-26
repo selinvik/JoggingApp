@@ -15,7 +15,7 @@ import Form from 'react-bootstrap/Form';
 
 class RecordsAddNew extends Component {
 
-  state = {date: null, distance: null, time: null}
+  state = {date: new Date(), distance: null, time: null}
 
   async addRecord(){
     if(this.state.date === null || this.state.distance === null || this.state.time === null){
@@ -77,6 +77,7 @@ class RecordsAddNew extends Component {
   }
 
  render(){
+  const dateNow = this.state.date.getFullYear() + "-" + ('0' + (this.state.date.getMonth()+1)).slice(-2) + "-" + ('0' + this.state.date.getDate()).slice(-2)
   return(
     <Container>
       <Row className='add-title-row'>
@@ -87,8 +88,7 @@ class RecordsAddNew extends Component {
           <Form.Group>
             <Form.Control
               type="date"
-              placeholder={this.state.date}
-              value={this.state.date}
+              value={dateNow}
               onChange={this.handleChangeDate.bind(this)}
             />
           </Form.Group>
