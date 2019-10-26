@@ -1,25 +1,74 @@
 import React from 'react';
 import { Component } from 'react';
-import './Records.css';
+import Styles from './Records.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import { secondsToString, avgSpeed, beautifyDate } from '../../utils/functions';
+import { secondsToString, avgSpeed, beautifyDate, getDayStart, getDayEnd } from '../../utils/functions';
 
 import EditImg from './pictures/edit.png';
 import DeleteImg from './pictures/delete.png';
 import Navigation from '../../components/Header/Navigation';
 
+function filterDates(filter, row){
+  const date = row[filter.id].valueOf();
+  return filter.value.start <= date && date <= filter.value.end;
+}
+
+function DateRangeColumnFilter({
+  filter,
+  onChange
+}) {
+  const minFilterDate = Date.now() - 1000 * 60 * 60 * 24 * 7;
+  const maxFilterDate = Date.now();
+  const start = filter ? filter.value.start : getDayStart(new Date(minFilterDate)).valueOf();
+  const end = filter ? filter.value.end : getDayEnd(new Date(maxFilterDate)).valueOf();
+
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        <div style={{marginRight: 10, alignSelf: 'center'}}>from</div>
+        <DatePicker
+          className='pickerInputWidth'
+          selected={new Date(start)}
+          onChange={date => {
+            const val = getDayStart(date).valueOf();
+            onChange({ start: val, end });
+          }}
+        />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        <div style={{marginRight: 30, alignSelf: 'center'}}>to</div>
+        <DatePicker
+          className='pickerInputWidth'
+          selected={new Date(end)}
+          onChange={date => {
+            const val = getDayEnd(date).valueOf();
+            onChange({ start, end: val });
+          }}
+        />
+      </div>
+    </>
+  )
+}
+
 class Records extends Component {
 
-  state = {records:[]}
+  state = { records:[] }
 
   componentWillMount(){
     this.loadRecords()
@@ -31,7 +80,7 @@ class Records extends Component {
         {credentials: 'include'}
       );
       const recordsJson = await response.json();
-      //recordsJson.forEach(record => record.time = secondsToString(record.time));
+      recordsJson.forEach(record => record.date = new Date(record.date));
       this.setState({records: recordsJson});
       return recordsJson;
     } catch (error) {
@@ -66,11 +115,13 @@ class Records extends Component {
   }
 
   render(){
+    const { records } = this.state;
     return(
       <Container>
         <Navigation pathname={this.props.location.pathname}/>
         <ReactTable
-          data={this.state.records}
+          filterable
+          data={records}
           noDataText="Нет данных!"
           sorted={[
             {
@@ -82,8 +133,8 @@ class Records extends Component {
             {
               Header: "Date",
               accessor: 'date',
-              /*Filter: NumberRangeColumnFilter,
-              filter: 'between',*/
+              filterMethod: filterDates,
+              Filter: DateRangeColumnFilter,
               Cell: row => beautifyDate(row.value)
             },
             {
@@ -126,7 +177,7 @@ class Records extends Component {
             Add new record
           </Button>
         </Link>
-        
+
       </Container>
 
   )

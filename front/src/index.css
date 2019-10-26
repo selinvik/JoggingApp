@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.ReactTable .rt-th, .ReactTable .rt-td {
+  overflow: visible !important;
+}

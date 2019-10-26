@@ -8,14 +8,14 @@ export function secondsToString(seconds){
             val = Math.floor(val);
             return val < 10 ? '0' + val : val;
         }
-    
+
         return function (ms){
             var sec = ms / 1000
               , hours = sec / 3600  % 24
               , minutes = sec / 60 % 60
               , seconds = sec % 60
             ;
-    
+
             return num(hours) + ":" + num(minutes) + ":" + num(seconds);
         };
     })()
@@ -34,9 +34,16 @@ export function stringToSeconds(str){
 }
 
 export function beautifyDate(date) {
-    var dateDisplay = new Date(date);
-    dateDisplay = ('0' + dateDisplay.getDate()).slice(-2) + '/' + ('0' + (dateDisplay.getMonth()+1)).slice(-2) + '/' + dateDisplay.getFullYear();
+    const dateDisplay = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + date.getFullYear();
     return dateDisplay;
+}
+
+export function getDayStart(date){
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+}
+
+export function getDayEnd(date){
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
 }
 
 export function avgSpeed(record) {

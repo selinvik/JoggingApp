@@ -1,3 +1,7 @@
 .add-record-button{
   margin-top: 20px;
 }
+
+.pickerInputWidth{
+  width: 100%;
+}
