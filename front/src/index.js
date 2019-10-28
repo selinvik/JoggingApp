@@ -7,10 +7,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.css';
 import Login from './routes/Login/Login';
 import Records from './routes/Records/Records';
-import RecordsAddNew from './routes/RecordsAddNew/RecordsAddNew';
 import Reports from './routes/Reports/Reports';
 import Header from './components/Header/Header';
-import RecordsEdit from './routes/RecordsEdit/RecordsEdit';
+import RecordEditor from './routes/RecordEditor/RecordEditor';
 
 ReactDOM.render((
     <Router>
@@ -19,12 +18,8 @@ ReactDOM.render((
         <Route path="/" exact component={Login} />
         <Route path="/records/" exact component={Records} />
         <Route path="/reports/" exact component={Reports} />
-        <Route path="/records/add-new/" exact component={RecordsAddNew} />
-        <Route path="/records/edit/:id" component={RecordsEdit} />
-        {/*
         <Route path="/records/add/" exact component={RecordEditor} />
         <Route path="/records/edit/:id" component={RecordEditor}/>
-        */}
       </Switch>
     </Router>
 ), document.getElementById('root'));

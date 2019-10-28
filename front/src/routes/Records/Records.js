@@ -172,7 +172,7 @@ class Records extends Component {
           defaultPageSize={10}
           className="-striped -highlight"
         />
-        <Link to="/records/add-new/">
+        <Link to="/records/add/">
           <Button variant="outline-secondary" className='add-record-button'>
             Add new record
           </Button>

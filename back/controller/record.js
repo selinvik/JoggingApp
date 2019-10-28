@@ -13,6 +13,15 @@ const recordController = {
     await record.setUser(user);
     res.send(record)
   },
+  record: async function (req, res){
+    try{
+      const record = await Record.findOne({ where: { id: req.params.id }})
+      res.send(record)
+    } catch (error) {
+      console.log(req.body)
+      console.error(error);
+    }
+  },
   list: async function (req, res) {
     try{
       const records = await Record.findAll({where: {UserId: req.user.id}})
@@ -53,5 +62,8 @@ router.route('/')
   .get(authorization, recordController.list)
   .put(authorization, recordController.update)
   .delete(authorization, recordController.delete)
+
+router.route('/:id')
+.get(authorization, recordController.record)
 
 module.exports = router;
