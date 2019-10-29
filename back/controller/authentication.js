@@ -1,5 +1,5 @@
 const router = require('express').Router();
-var passport = require('passport')
+const passport = require('passport')
 
 const authController = {
   create: async (req, res, next) => {

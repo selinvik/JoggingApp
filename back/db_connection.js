@@ -1,6 +1,6 @@
-var session = require("express-session");
+const session = require("express-session");
 const Sequelize = require('sequelize');
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const bcrypt = require('bcrypt');
 
 const sequelize = new Sequelize('admin', 'postgres', '3345', {

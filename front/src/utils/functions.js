@@ -3,14 +3,14 @@ function addZeroes(time){
 }
 
 export function secondsToString(seconds){
-    var timeFormat = (function (){
+    const timeFormat = (function (){
         function num(val){
             val = Math.floor(val);
             return val < 10 ? '0' + val : val;
         }
 
         return function (ms){
-            var sec = ms / 1000
+            const sec = ms / 1000
               , hours = sec / 3600  % 24
               , minutes = sec / 60 % 60
               , seconds = sec % 60
@@ -24,7 +24,7 @@ export function secondsToString(seconds){
 
 export function stringToSeconds(str){
     const time = str.split(':');
-    var seconds = 0, m = 1;
+    const seconds = 0, m = 1;
 
     while (time.length > 0) {
         seconds += m * parseInt(time.pop(), 10);

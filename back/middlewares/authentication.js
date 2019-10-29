@@ -1,7 +1,7 @@
-var passport = require('passport')
-var session = require("express-session");
-var LocalStrategy = require('passport-local').Strategy;
-var router = require('express').Router();
+const passport = require('passport')
+const session = require("express-session");
+const LocalStrategy = require('passport-local').Strategy;
+const router = require('express').Router();
 const {SessionStore, User} = require('../db_connection');
 
 router.use(session({

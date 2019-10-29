@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express')
-var router = require('express').Router();
+const router = require('express').Router();
 
 router.use(express.static("public"));
 // parse application/x-www-form-urlencoded
