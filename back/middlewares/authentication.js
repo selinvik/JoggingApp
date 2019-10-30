@@ -25,7 +25,7 @@ passport.deserializeUser(async function(id, done) {
     const user = await User.findByPk(id);
     done(null, user);
   } catch(err){
-    console.log(err);
+    console.error(err);
     done(err, null);
   }
 });
@@ -37,16 +37,11 @@ passport.use(new LocalStrategy({
     try {
       const user = await User.findOne({where: { email: username } });
       if (!user) {
-        console.log('a');
         return done(null, false, { message: 'Incorrect username.' });
       }
-      /*const validPassword = await user.validPassword(password);
-      console.log(`password: ${validPassword}`);*/
       if (!(await user.validPassword(password))) {
-        console.log('b');
         return done(null, false, { message: 'Incorrect password.' });
       }
-      console.log('c');
       return done(null, user);
     } catch(err){
       return done(err);

@@ -17,7 +17,6 @@ const reportController = {
       })
       res.send(reports)
     } catch (error) {
-      console.log(req.body)
       console.error(error);
     }
   }

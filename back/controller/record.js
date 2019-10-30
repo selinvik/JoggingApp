@@ -18,7 +18,6 @@ const recordController = {
       const record = await Record.findOne({ where: { id: req.params.id }})
       res.send(record)
     } catch (error) {
-      console.log(req.body)
       console.error(error);
     }
   },
@@ -27,7 +26,6 @@ const recordController = {
       const records = await Record.findAll({where: {UserId: req.user.id}})
       res.send(records)
     } catch (error) {
-      console.log(req.body)
       console.error(error);
     }
   },
@@ -41,7 +39,6 @@ const recordController = {
       })
       return res.status(200).send()
     } catch (error) {
-      console.log(req.body)
       console.error(error);
     }
   },
@@ -51,7 +48,6 @@ const recordController = {
       await record.destroy()
       return res.status(200).send()
     } catch (error) {
-      console.log(req.body)
       console.error(error);
     }
   }
