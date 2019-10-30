@@ -1,129 +1,107 @@
-import React from 'react';
-import { Component } from 'react';
-
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
-import './RecordEditor.css'
-import { secondsToString, stringToSeconds, validateDate } from '../../utils/functions'
-
+import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+
+import './RecordEditor.css';
+import { secondsToString, stringToSeconds, validateDate } from '../../utils/functions';
 
 class RecordEditor extends Component {
 
-  state = { date: new Date(), distance: null, time: null }
+  state = { isLoading: false, date: new Date(), distance: '', time: '' }
 
-  componentWillMount(){
-    if (this.props.match.params.id != undefined) this.loadRecord(this.props.match.params.id);
-    else return;
+  componentDidMount() {
+    if (this.props.match.params.id != undefined)
+      this.loadRecord(this.props.match.params.id);
   }
 
   async loadRecord(id) {
     try {
       const response = await fetch('/api/record/' + id,
-        {credentials: 'include'}
+        { credentials: 'include' }
       );
       const recordJson = await response.json();
-      this.setState({ date: new Date(recordJson.date), distance: recordJson.distance, time: secondsToString(recordJson.time) });
+      this.setState({
+        date: new Date(recordJson.date),
+        distance: recordJson.distance,
+        time: secondsToString(recordJson.time),
+      });
     } catch (error) {
       console.error(error);
     }
   }
 
-  async addRecord(id){
-    if(this.state.date === null || this.state.distance === null || this.state.time === null){
-      alert('Заполните все поля')
+  async addRecord() {
+    const id = this.props.match.params.id;
+    if (!this.state.distance || !this.state.time) {
+      alert('Заполните все поля');
       return;
     }
+
     const date = this.state.date;
     const distance = parseInt(this.state.distance);
     const time = stringToSeconds(this.state.time);
 
-    if (validateDate(date) === false){
-      alert('Введите правильно дату')
+    if (validateDate(date) === false) {
+      alert('Введите правильно дату');
       return;
     }
-    
-    if (id === undefined){
-      try{
-        const response = await fetch('/api/record', 
-          {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              date      : date + "",
-              distance  : distance + "",
-              time      : time + ""
-            })
-          });
-          if (response.status === 200){
-            this.props.history.push('/records/');
-          }
-          if (response.status === 401){
-            alert('У вас не прав');
-          }
-      } catch (error) {
-          alert('Произошла ошибка в ходе авторизации!');
-          console.error(error);
-      }  
-    }
-    
-    else {
-      try {
-        const response = await fetch('/api/record',
-          {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              id        : id,
-              date      : date + "",
-              distance  : distance + "",
-              time      : time + ""
-            })
-          });
-          if (response.status === 200){
-            this.props.history.push('/records/');
-          }
-          if (response.status === 401){
-            alert('У вас не прав');
-          }
-        } catch (error) {
-          alert('Произошла ошибка в ходе авторизации!');
-          console.error(error);
+
+    try {
+      this.setState({ isLoading : true });
+      const isNewRecord = id === undefined;
+      const method = isNewRecord ? 'POST' : 'PUT';
+      const body = {
+        date      : date + '',
+        distance  : distance + '',
+        time      : time + '',
+      };
+      if (!isNewRecord)
+        body.id = id;
+
+      const response = await fetch('/api/record',
+        {
+          method,
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        if (response.status === 200){
+          this.setState({ isLoading : false });
+          this.props.history.push('/records/');
+        } else if (response.status === 401){
+          this.setState({ isLoading : false });
+          alert('Произошла ошибка в ходе авторизации');
+        } else {
+          this.setState({ isLoading : false });
+          alert('Произошла ошибка при запросе');
+          console.error(`Error ${response.status}`);
         }
+    } catch (error) {
+      this.setState({ isLoading : false });
+      alert('Произошла ошибка при запросе!');
+      console.error(error);
     }
   }
 
   handleChangeDate(date) {
-    this.setState({
-        date: date,
-    })
+    this.setState({ date: date })
   }
 
-  handleChangeDistance(event) {
-    this.setState({
-        distance: event.target.value
-    })
-  }
-
-  handleChangeTime(event) {
-    this.setState({
-        time: event.target.value
-    })
+  handleChangeInput(propName) {
+    return (event) => this.setState({ [propName] : event.target.value });
   }
 
  render(){
   const id = this.props.match.params.id;
+  const isNewRecord = id === undefined;
+  const { isLoading, date, time, distance } = this.state;
   return(
     <Container>
       <Row className='add-title-row'>
@@ -131,20 +109,20 @@ class RecordEditor extends Component {
       </Row>
       <Form>
         <Form.Row>
-          <Form.Group> 
+          <Form.Group>
             <DatePicker
-              selected={this.state.date}
+              selected={date}
               onChange={this.handleChangeDate.bind(this)}
-            />    
+            />
           </Form.Group>
         </Form.Row>
         <Form.Row>
-        <Form.Group>
+          <Form.Group>
             <Form.Control
               type="text"
               placeholder="Distance(m)"
-              value={this.state.distance}
-              onChange={this.handleChangeDistance.bind(this)}
+              value={distance}
+              onChange={this.handleChangeInput('distance')}
             />
           </Form.Group>
         </Form.Row>
@@ -153,21 +131,14 @@ class RecordEditor extends Component {
             <Form.Control
               type="text"
               placeholder="00:00:00"
-              value={this.state.time}
-              onChange={this.handleChangeTime.bind(this)}
+              value={time}
+              onChange={this.handleChangeInput('time')}
             />
           </Form.Group>
         </Form.Row>
-          {
-            id === undefined ? 
-              <Button variant="outline-secondary" onClick={() => this.addRecord()}>
-                SUBMIT
-              </Button>
-            :
-              <Button variant="outline-secondary" onClick={() => this.addRecord(id)}>
-                CHANGE
-              </Button>
-          }
+          <Button variant="outline-secondary" onClick={this.addRecord.bind(this)}>
+            { isLoading ? 'Loading...' : isNewRecord ? 'SUBMIT' : 'CHANGE' }
+          </Button>
       </Form>
     </Container>
   )
