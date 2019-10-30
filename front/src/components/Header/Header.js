@@ -4,13 +4,13 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import classes from './Header.css'
+import './Header.css'
 import { withRouter } from "react-router";
 
 import { login } from '../../utils/functions';
 
 class Header extends Component{
-    state = { isLoading: false, loginEmail: null, loginPassword: null }
+    state = { isLoading: false, loginEmail: '', loginPassword: '' }
 
     handleChangeLoginEmail(event) {
         this.setState({
@@ -62,7 +62,7 @@ class Header extends Component{
                                 className="email-input"
                                 type="email"
                                 placeholder="Email"
-                                value={this.state.loginEmail}
+                                value={loginEmail}
                                 onChange={this.handleChangeLoginEmail.bind(this)}
                             />
                         </Form.Group>
@@ -73,7 +73,7 @@ class Header extends Component{
                                 className="password-input"
                                 type="password"
                                 placeholder="Password"
-                                value={this.state.loginPassword}
+                                value={loginPassword}
                                 onChange={this.handleChangeLoginPassword.bind(this)}
                             />
                         </Form.Group>
@@ -85,7 +85,7 @@ class Header extends Component{
                             disabled={isLoading}
                             onClick={async () => {
                                 this.setState({ isLoading: true });
-                                await login(this.state.loginEmail, this.state.loginPassword, this.props.history);
+                                await login(loginEmail, loginPassword, this.props.history);
                                 this.setState({ isLoading: false });
                             }}
                         >

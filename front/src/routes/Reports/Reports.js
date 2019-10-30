@@ -1,6 +1,5 @@
 import React from 'react';
 import { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import './Reports.css';
 
 import ReactTable from "react-table";
@@ -15,7 +14,7 @@ class Reports extends Component {
 
   state = {reports:[]}
 
-  componentWillMount(){
+  componentDidMount(){
     this.loadRecords()
   }
 

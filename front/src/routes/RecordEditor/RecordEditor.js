@@ -14,7 +14,7 @@ class RecordEditor extends Component {
   state = { isLoading: false, date: new Date(), distance: '', time: '' }
 
   componentDidMount() {
-    if (this.props.match.params.id != undefined)
+    if (this.props.match.params.id !== undefined)
       this.loadRecord(this.props.match.params.id);
   }
 

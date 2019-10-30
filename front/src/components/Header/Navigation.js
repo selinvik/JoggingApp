@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import classes from './Navigation.css'
+import React from 'react';
+import { Link } from "react-router-dom";
+import './Navigation.css'
 import Form from 'react-bootstrap/Form';
 import { withRouter } from "react-router";
 

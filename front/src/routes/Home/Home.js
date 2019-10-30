@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import './Home.css';
 import { login } from '../../utils/functions';
-import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom"
+import { withRouter } from "react-router-dom"
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row';
 
 class Home extends Component {
 
-  state = { isLoading: false, firstName: null, lastName: null, email: null, password: null, passwordRepeat: null }
+  state = { isLoading: false, firstName: '', lastName: '', email: '', password: '', passwordRepeat: '' }
 
   async createAccount(){
     try {

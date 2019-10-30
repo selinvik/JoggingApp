@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
-import Styles from './Records.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import './Records.css';
+import { Link } from "react-router-dom"
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -70,7 +70,7 @@ class Records extends Component {
 
   state = { records:[] }
 
-  componentWillMount(){
+  componentDidMount(){
     this.loadRecords()
   }
 
@@ -156,7 +156,7 @@ class Records extends Component {
               width: 50,
               Cell: row => (
                 <Link to={'/records/edit/' + row.value}>
-                  <img src={EditImg} width='30px' height='30px'/>
+                  <img alt="edit" src={EditImg} width='30px' height='30px'/>
                 </Link>
               )
             },
@@ -165,7 +165,7 @@ class Records extends Component {
               accessor: "id",
               width: 70,
               Cell: row => (
-                <img onClick={() => this.deleteRecord(row.value)} src={DeleteImg} style={{cursor: 'pointer'}}></img>
+                <img alt="delete" onClick={() => this.deleteRecord(row.value)} src={DeleteImg} style={{cursor: 'pointer'}}></img>
               )
             }
           ]}

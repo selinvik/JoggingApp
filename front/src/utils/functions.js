@@ -83,9 +83,10 @@ export async function login(loginEmail, loginPassword, history){
             });
         if (response.status === 201){
             history.push('/records/');
-        }
-        if (response.status === 422){
-          alert('Нету такого юзера');
+        } else if (response.status === 422){
+            alert('Нету такого юзера');
+        } else {
+            alert('Ошибка авторизации');
         }
     } catch (error) {
         alert('Произошла ошибка в ходе авторизации!');
