@@ -1,34 +1,26 @@
-function addZeroes(time){
-    return time > 9 ? time : '0' + time;
-}
-
 export function secondsToString(seconds){
-    const timeFormat = (function (){
+    function timeFormat(ms){
         function num(val){
             val = Math.floor(val);
             return val < 10 ? '0' + val : val;
         }
+        const sec = ms / 1000
+            , hours = sec / 3600  % 24
+            , minutes = sec / 60 % 60
+            , seconds = sec % 60;
 
-        return function (ms){
-            const sec = ms / 1000
-              , hours = sec / 3600  % 24
-              , minutes = sec / 60 % 60
-              , seconds = sec % 60
-            ;
-
-            return num(hours) + ":" + num(minutes) + ":" + num(seconds);
-        };
-    })()
+        return num(hours) + ":" + num(minutes) + ":" + num(seconds);
+    }
     return timeFormat(seconds * 1000);
 }
 
 export function stringToSeconds(str){
     const time = str.split(':');
-    var seconds = 0, m = 1;
+    var seconds = 0, mult = 1;
 
     while (time.length > 0) {
-        seconds += m * parseInt(time.pop(), 10);
-        m *= 60;
+        seconds += mult * parseInt(time.pop(), 10);
+        mult *= 60;
     }
     return seconds;
 }
