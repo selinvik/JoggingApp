@@ -17,13 +17,17 @@ function generatePasswordHash(password){
 const userController = {
   create: async (req, res) => {
     const hashPassword = await generatePasswordHash(req.body.password);
-    const user = await User.create({
-      firstName : req.body.firstName,
-      lastName  : req.body.lastName,
-      email     : req.body.email,
-      password  : hashPassword
-    })
-    res.send(user)
+    try {
+      const user = await User.create({
+        firstName : req.body.firstName,
+        lastName  : req.body.lastName,
+        email     : req.body.email,
+        password  : hashPassword
+      });
+      res.send(user);
+    } catch (err) {
+      res.status(409).send();
+    }
   }
 }
 

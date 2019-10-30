@@ -31,8 +31,10 @@ class Home extends Component {
             password  : this.state.password + ""
           })
         });
-        if (response.status === 200){
+        if (response.status === 200) {
           await login(this.state.email, this.state.password, this.props.history);
+        } else if (response.status === 409) {
+          alert('Такой email уже занят');
         }
         this.setState({ isLoading: false });
       } catch (error) {
