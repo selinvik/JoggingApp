@@ -11,10 +11,11 @@ import Row from 'react-bootstrap/Row';
 
 class Home extends Component {
 
-  state = { firstName: null, lastName: null, email: null, password: null, passwordRepeat: null }
+  state = { isLoading: false, firstName: null, lastName: null, email: null, password: null, passwordRepeat: null }
 
   async createAccount(){
     try {
+      this.setState({ isLoading: true });
       const response = await fetch('/api/user',
         {
           method: 'POST',
@@ -31,9 +32,11 @@ class Home extends Component {
           })
         });
         if (response.status === 200){
-          login(this.state.email, this.state.password, this.props.history)
+          await login(this.state.email, this.state.password, this.props.history);
         }
+        this.setState({ isLoading: false });
       } catch (error) {
+        this.setState({ isLoading: false });
         alert('Произошла ошибка в ходе авторизации!');
         console.error(error);
       }
@@ -70,6 +73,7 @@ class Home extends Component {
   }
 
   render(){
+    const { isLoading, firstName, lastName, email, password, passwordRepeat } = this.state;
     return (
       <Container>
         <Row className='login-title'>Create an account</Row>
@@ -80,7 +84,7 @@ class Home extends Component {
                 className='firstName-input'
                 type="text"
                 placeholder="First Name"
-                value={this.state.firstName}
+                value={firstName}
                 onChange={this.handleChangeFirstName.bind(this)}
               />
             </Form.Group>
@@ -89,7 +93,7 @@ class Home extends Component {
                 className='lastName-input'
                 type="text"
                 placeholder="Last Name"
-                value={this.state.lastName}
+                value={lastName}
                 onChange={this.handleChangeLastName.bind(this)}
               />
             </Form.Group>
@@ -100,7 +104,7 @@ class Home extends Component {
                 className='emailName-input'
                 type="email"
                 placeholder="Email"
-                value={this.state.email}
+                value={email}
                 onChange={this.handleChangeEmail.bind(this)}
               />
             </Form.Group>
@@ -111,7 +115,7 @@ class Home extends Component {
                 className='password-input'
                 type="password"
                 placeholder="Password"
-                value={this.state.password}
+                value={password}
                 onChange={this.handleChangePassword.bind(this)}
               />
             </Form.Group>
@@ -122,13 +126,13 @@ class Home extends Component {
                 className='passwordRepeat-input'
                 type="password"
                 placeholder="Repeat password"
-                value={this.state.passwordRepeat}
+                value={passwordRepeat}
                 onChange={this.handleChangePasswordRepeat.bind(this)}
               />
             </Form.Group>
           </Form.Row>
-            <Button variant="outline-secondary" onClick={() => this.createAccount()}>
-              Create an account
+            <Button disabled={isLoading} variant="outline-secondary" onClick={() => this.createAccount()}>
+              { isLoading ? 'Loading...' : 'Create an account' }
             </Button>
         </Form>
       </Container>

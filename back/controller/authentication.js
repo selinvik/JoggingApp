@@ -1,9 +1,16 @@
 const router = require('express').Router();
-const passport = require('passport')
+const passport = require('passport');
+
+const msleep = time =>
+   new Promise(
+       resolve => setTimeout(_=>resolve(), time)
+   )
+;
 
 const authController = {
   create: async (req, res, next) => {
-    await passport.authenticate('local', function(err, user, info) {
+    await passport.authenticate('local', async function(err, user, info) {
+      await msleep(1000);
       if (err)  {
         return next(err);
       }

@@ -69,18 +69,18 @@ export function validateDate(date){
 
 export async function login(loginEmail, loginPassword, history){
     try {
-      const response = await fetch('/api/authentication',
-        {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: loginEmail,
-                password: loginPassword,
-            })
-        });
+        const response = await fetch('/api/authentication',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: loginEmail,
+                    password: loginPassword,
+                })
+            });
         if (response.status === 201){
             history.push('/records/');
         }

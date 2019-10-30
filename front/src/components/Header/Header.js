@@ -10,7 +10,7 @@ import { withRouter } from "react-router";
 import { login } from '../../utils/functions';
 
 class Header extends Component{
-    state = {loginEmail: null, loginPassword: null}
+    state = { isLoading: false, loginEmail: null, loginPassword: null }
 
     handleChangeLoginEmail(event) {
         this.setState({
@@ -26,24 +26,28 @@ class Header extends Component{
 
     async logOut(){
         try {
-          const response = await fetch('/api/authentication',
-            {
-              method: 'DELETE',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              },
-            });
+            this.setState({ isLoading: true });
+            const response = await fetch('/api/authentication',
+                {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                });
             if (response.status === 200){
               this.props.history.push('/');
             }
+            this.setState({ isLoading: false });
           } catch (error) {
+            this.setState({ isLoading: false });
             alert('Произошла ошибка в ходе авторизации!');
             console.error(error);
           }
     }
 
     render(){
+        const { isLoading, loginEmail, loginPassword } = this.state;
         return (
             <Row className='header'>
                 <Col className='header-title'>Jogging App</Col>
@@ -78,9 +82,14 @@ class Header extends Component{
                         <Button
                             className="login-button"
                             variant="outline-secondary"
-                            onClick={() => login(this.state.loginEmail, this.state.loginPassword, this.props.history)}
+                            disabled={isLoading}
+                            onClick={async () => {
+                                this.setState({ isLoading: true });
+                                await login(this.state.loginEmail, this.state.loginPassword, this.props.history);
+                                this.setState({ isLoading: false });
+                            }}
                         >
-                            Login
+                            {isLoading ? 'Loading...' : 'Login' }
                         </Button>
                         </Col>
                         </Row>
@@ -89,7 +98,7 @@ class Header extends Component{
                     :
                     <Button
                         className="logout-button"
-                        variant="outline-secondary" 
+                        variant="outline-secondary"
                         onClick={() => this.logOut()}
                     >
                         Logout
