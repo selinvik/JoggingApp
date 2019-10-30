@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row';
 
 class Login extends Component {
 
-  state = {firstName: null, lastName: null, email: null, password: null, passwordRepeat: null}
+  state = { firstName: null, lastName: null, email: null, password: null, passwordRepeat: null }
 
   async createAccount(){
     try {

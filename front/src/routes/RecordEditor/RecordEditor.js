@@ -9,12 +9,11 @@ import { secondsToString, stringToSeconds, validateDate } from '../../utils/func
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 class RecordEditor extends Component {
 
-  state = {date: new Date(), distance: null, time: null}
+  state = { date: new Date(), distance: null, time: null }
 
   componentWillMount(){
     if (this.props.match.params.id != undefined) this.loadRecord(this.props.match.params.id);
@@ -27,7 +26,7 @@ class RecordEditor extends Component {
         {credentials: 'include'}
       );
       const recordJson = await response.json();
-      this.setState({date: new Date(recordJson.date), distance: recordJson.distance, time: secondsToString(recordJson.time)});
+      this.setState({ date: new Date(recordJson.date), distance: recordJson.distance, time: secondsToString(recordJson.time) });
     } catch (error) {
       console.error(error);
     }
