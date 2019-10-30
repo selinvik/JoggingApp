@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models/User');
+const { User } = require('../db/models/models');
 const bcrypt = require('bcrypt');
 
 function generatePasswordHash(password){
@@ -17,7 +17,7 @@ function generatePasswordHash(password){
 const userController = {
   create: async (req, res) => {
     const hashPassword = await generatePasswordHash(req.body.password);
-    const user = await User.create({ 
+    const user = await User.create({
       firstName : req.body.firstName,
       lastName  : req.body.lastName,
       email     : req.body.email,

@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Record } = require('../models/Record');
+const { Record } = require('../db/models/models');
 const authorization = require('../middlewares/authorization')
 
 const recordController = {
   create: async function (req, res) {
     const user = req.user;
-    const record = await Record.create({ 
+    const record = await Record.create({
       date      : req.body.date,
       distance  : req.body.distance,
       time      : req.body.time
@@ -34,7 +34,7 @@ const recordController = {
   update: async function (req, res ) {
     try{
       const record = await Record.findOne({ where: { id: req.body.id }})
-      await record.update({ 
+      await record.update({
           date      : req.body.date,
           distance  : req.body.distance,
           time      : req.body.time

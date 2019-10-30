@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Record } = require('../models/Record');
+const { Record } = require('../db/models/models');
 const Sequelize = require('sequelize');
 const authorization = require('../middlewares/authorization')
 
@@ -8,13 +8,13 @@ const reportController = {
     try{
       const reports = await Record.findAll({
         attributes: [
-          [Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'week'], 
-          [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('distance')), 'INTEGER'), 'avgWeekDist'], 
+          [Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'week'],
+          [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('distance')), 'INTEGER'), 'avgWeekDist'],
           [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('time')), 'INTEGER'), 'avgWeekTime']],
         group: ['week'],
-        order: [[Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'ASC']], 
+        order: [[Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'ASC']],
         where: {UserId: req.user.id}
-      }) 
+      })
       res.send(reports)
     } catch (error) {
       console.log(req.body)

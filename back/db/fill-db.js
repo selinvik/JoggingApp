@@ -1,10 +1,10 @@
-const { User } = require('./models/User')
-const { Record } = require('./models/Record')
-const { sequelize } = require('./db_connection');
+const { User, Record } = require('./models/models');
+const { sequelize } = require('./db');
 
 //After all tables and relations between them are defined we can sync it with DB.
 const synchronization = () => {
   sequelize.sync({ force: true }).then(async () => {
+    console.log('Filling db');
     //and only after that we can insert some test data in DB.
     const user = await User.create({
       firstName: 'Viktor',
@@ -28,4 +28,4 @@ const synchronization = () => {
   });
 }
 
-module.exports = { synchronization };
+synchronization();

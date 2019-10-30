@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { sequelize } = require('../db_connection');
+const { sequelize } = require('../db');
 
 const Record = sequelize.define('Records', {
   id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },

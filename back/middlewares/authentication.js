@@ -2,8 +2,8 @@ const passport = require('passport')
 const session = require("express-session");
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
-const { SessionStore } = require('../db_connection');
-const { User } = require('../models/User')
+const { SessionStore } = require('../db/db');
+const { User } = require('../db/models/models');
 
 router.use(session({
   secret: 'keyboard cat',
