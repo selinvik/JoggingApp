@@ -9,7 +9,8 @@ router.use(session({
   secret: 'keyboard cat',
   store: SessionStore,
   resave: false, // we support the touch method so per the express-session docs this should be set to false
-  proxy: true // if you do SSL outside of node.
+  proxy: true, // if you do SSL outside of node.
+  cookie: { secure: true, sameSite: true }
 }))
 SessionStore.sync();
 
