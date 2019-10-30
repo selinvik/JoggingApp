@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import './Login.css';
+import './Home.css';
 import { login } from '../../utils/functions';
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom"
 
@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-class Login extends Component {
+class Home extends Component {
 
   state = { firstName: null, lastName: null, email: null, password: null, passwordRepeat: null }
 
@@ -136,5 +136,5 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login)
+export default withRouter(Home)
 
