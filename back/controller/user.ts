@@ -1,8 +1,9 @@
-const router = require('express').Router();
-const { User } = require('../db/models/models');
-const bcrypt = require('bcrypt');
+import express, { RequestHandler } from 'express';
+const router = express.Router();
+import { User } from '../db/models/models';
+import bcrypt from 'bcrypt';
 
-function generatePasswordHash(password){
+function generatePasswordHash(password: string): Promise<string>{
   return bcrypt.genSalt(10)
     .then((salt) => {
       return bcrypt.hash(password, salt)
@@ -14,7 +15,9 @@ function generatePasswordHash(password){
     .catch(() => null);
 }
 
-const userController = {
+const userController: {
+  [key: string]: RequestHandler
+} = {
   create: async (req, res) => {
     const hashPassword = await generatePasswordHash(req.body.password);
     try {
@@ -34,4 +37,4 @@ const userController = {
 router.route('/')
   .post(userController.create);
 
-module.exports = router;
+export default router;

@@ -1,9 +1,11 @@
-const passport = require('passport')
-const session = require("express-session");
-const LocalStrategy = require('passport-local').Strategy;
-const router = require('express').Router();
-const { SessionStore } = require('../db/db');
-const { User } = require('../db/models/models');
+import passport from 'passport';
+import session from 'express-session';
+import passportLocal from 'passport-local';
+const LocalStrategy = passportLocal.Strategy;
+import express from 'express';
+const router = express.Router();
+import { SessionStore } from '../db/db';
+import { User } from '../db/models/models';
 
 router.use(session({
   secret: 'keyboard cat',
@@ -17,11 +19,11 @@ SessionStore.sync();
 router.use(passport.initialize());
 router.use(passport.session());
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser<User, number>(function(user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(async function(id, done) {
+passport.deserializeUser<User, number>(async function(id, done) {
   try {
     const user = await User.findByPk(id);
     done(null, user);
@@ -50,4 +52,4 @@ passport.use(new LocalStrategy({
   }
 ));
 
-module.exports = router;
+export default router;

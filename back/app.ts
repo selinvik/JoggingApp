@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 
 const API_PATH = '/api';
-const api = require('./controller/api');
+import api from './controller/api';
 app.use(API_PATH, api);
 
 app.listen(8000, function () {

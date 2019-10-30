@@ -1,5 +1,5 @@
-const { User, Record } = require('./models/models');
-const { sequelize } = require('./db');
+import { User, Record } from './models/models';
+import { sequelize } from './db';
 
 //After all tables and relations between them are defined we can sync it with DB.
 const synchronization = () => {
@@ -19,7 +19,7 @@ const synchronization = () => {
       time: 536,
     });
     //adding user referrence to Record
-    await record.setUser(user);
+    await record.setUser(user.id);
 
     //now this record.getUser will return this user
     console.log('user of record: ', (await record.getUser()).get());

@@ -60,6 +60,6 @@ router.route('/')
   .delete(authorization, recordController.delete)
 
 router.route('/:id')
-.get(authorization, recordController.record)
+  .get(authorization, recordController.record)
 
 module.exports = router;

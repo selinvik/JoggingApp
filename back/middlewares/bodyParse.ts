@@ -9,4 +9,4 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 router.use(bodyParser.json());
 
-module.exports = router;
+export default router;
