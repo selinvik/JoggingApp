@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User} = require('../db_connection');
+const { User } = require('../models/User');
 const bcrypt = require('bcrypt');
 
 function generatePasswordHash(password){

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Record} = require('../db_connection');
+const { Record } = require('../models/Record');
 const Sequelize = require('sequelize');
 const authorization = require('../middlewares/authorization')
 

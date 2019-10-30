@@ -24,7 +24,7 @@ export function secondsToString(seconds){
 
 export function stringToSeconds(str){
     const time = str.split(':');
-    const seconds = 0, m = 1;
+    var seconds = 0, m = 1;
 
     while (time.length > 0) {
         seconds += m * parseInt(time.pop(), 10);

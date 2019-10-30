@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Record} = require('../db_connection');
+const { Record } = require('../models/Record');
 const authorization = require('../middlewares/authorization')
 
 const recordController = {
