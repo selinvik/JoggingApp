@@ -111,6 +111,7 @@ class RecordEditor extends Component {
         <Form.Row>
           <Form.Group>
             <DatePicker
+              className='form-control'
               selected={date}
               onChange={this.handleChangeDate.bind(this)}
             />
