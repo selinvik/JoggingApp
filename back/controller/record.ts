@@ -1,8 +1,11 @@
-const router = require('express').Router();
-const { Record } = require('../db/models/models');
-const authorization = require('../middlewares/authorization')
+import express, { RequestHandler } from 'express';
+const router = express.Router();
+import { Record } from '../db/models/models';
+import authorization from '../middlewares/authorization';
 
-const recordController = {
+const recordController: {
+  [key: string]: RequestHandler
+} = {
   create: async function (req, res) {
     const user = req.user;
     const record = await Record.create({
@@ -62,4 +65,4 @@ router.route('/')
 router.route('/:id')
   .get(authorization, recordController.record)
 
-module.exports = router;
+export default router;

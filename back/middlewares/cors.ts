@@ -1,4 +1,5 @@
-const router = require('express').Router();
+import express, { RequestHandler } from 'express';
+const router = express.Router();
 
 router.use('*', function (req, res, next) {
   //if (req.method === 'OPTIONS') {
@@ -19,4 +20,4 @@ router.use('*', function (req, res, next) {
   //}
 });
 
-module.exports = router;
+export default router;

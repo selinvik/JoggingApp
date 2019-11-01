@@ -1,5 +1,6 @@
-const router = require('express').Router();
-const passport = require('passport');
+import express, { RequestHandler } from 'express';
+const router = express.Router();
+import passport from 'passport';
 
 const msleep = time =>
    new Promise(
@@ -7,7 +8,9 @@ const msleep = time =>
    )
 ;
 
-const authController = {
+const authController: {
+  [key: string]: RequestHandler
+} = {
   create: async (req, res, next) => {
     await passport.authenticate('local', async function(err, user, info) {
       await msleep(1000);
@@ -35,4 +38,4 @@ router.route('/')
   .post(authController.create)
   .delete(authController.delete)
 
-module.exports = router;
+export default router;

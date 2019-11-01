@@ -1,9 +1,12 @@
-const router = require('express').Router();
-const { Record } = require('../db/models/models');
-const Sequelize = require('sequelize');
-const authorization = require('../middlewares/authorization')
+import express, { RequestHandler } from 'express';
+const router = express.Router();
+import { Record } from '../db/models/models';
+import Sequelize from 'sequelize';
+import authorization from '../middlewares/authorization';
 
-const reportController = {
+const reportController: {
+  [key: string]: RequestHandler
+} = {
   list: async function (req, res) {
     try{
       const reports = await Record.findAll({
@@ -25,4 +28,4 @@ const reportController = {
 router.route('/')
   .get(authorization, reportController.list);
 
-module.exports = router;
+export default router;
