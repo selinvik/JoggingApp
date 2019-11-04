@@ -67,6 +67,14 @@ export function validateDate(date){
     else return true
 }
 
+export function validateEmail(email){
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if(reg.test(email) === false) {
+      return false;
+    }
+    else return true;
+}
+
 export async function login(loginEmail, loginPassword, history){
     try {
         const response = await fetch('/api/authentication',

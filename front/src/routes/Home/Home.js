@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './Home.css';
-import { login } from '../../utils/functions';
+import { login, validateEmail } from '../../utils/functions';
 import { withRouter } from "react-router-dom"
 
 import Button from 'react-bootstrap/Button';
@@ -11,11 +11,21 @@ import Row from 'react-bootstrap/Row';
 
 class Home extends Component {
 
-  state = { isLoading: false, firstName: '', lastName: '', email: '', password: '', passwordRepeat: '' }
+  state = { 
+    createBtnDisabled: true, 
+    emailValid: false, 
+    emailInputStyle: 'email-valid-style',
+    isLoading: false,
+    firstName: '', 
+    lastName: '', 
+    email: '', 
+    password: '', 
+    passwordRepeat: '', 
+  }
 
   async createAccount(){
     try {
-      this.setState({ isLoading: true });
+      this.setState({ createBtnDisabled: true, isLoading: true });
       const response = await fetch('/api/user',
         {
           method: 'POST',
@@ -36,12 +46,12 @@ class Home extends Component {
         } else if (response.status === 409) {
           alert('Такой email уже занят');
         }
-        this.setState({ isLoading: false });
-      } catch (error) {
-        this.setState({ isLoading: false });
-        alert('Произошла ошибка в ходе авторизации!');
-        console.error(error);
-      }
+        this.setState({ createBtnDisabled: false, isLoading: false });
+    } catch (error) {
+      this.setState({ createBtnDisabled: false, isLoading: false });
+      alert('Произошла ошибка в ходе авторизации!');
+      console.error(error);
+    }
   }
 
   handleChangeFirstName(event) {
@@ -57,9 +67,21 @@ class Home extends Component {
   }
 
   handleChangeEmail(event) {
-    this.setState({
-        email: event.target.value
-    })
+    const email = validateEmail(event.target.value);
+    if (email === false) {
+      this.setState({ 
+        email: event.target.value, 
+        createBtnDisabled: true,
+        emailValid: false, 
+        emailInputStyle: 'email-non-valid-style' 
+      })
+    }
+    else this.setState({ 
+      email: event.target.value, 
+      createBtnDisabled: false,
+      emailValid: true, 
+      emailInputStyle: 'email-valid-style' 
+    });
   }
 
   handleChangePassword(event) {
@@ -75,7 +97,7 @@ class Home extends Component {
   }
 
   render(){
-    const { isLoading, firstName, lastName, email, password, passwordRepeat } = this.state;
+    const { createBtnDisabled, emailValid, emailInputStyle, isLoading, firstName, lastName, email, password, passwordRepeat } = this.state;
     return (
       <Container>
         <Row className='login-title'>Create an account</Row>
@@ -103,12 +125,15 @@ class Home extends Component {
           <Form.Row className='email-row'>
             <Form.Group>
               <Form.Control
-                className='emailName-input'
+                className={emailInputStyle}
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={this.handleChangeEmail.bind(this)}
               />
+              {
+                emailValid ? <div></div> : <div className='non-valid-message'>enter the correct email</div>
+              }
             </Form.Group>
           </Form.Row>
           <Form.Row className='password-row'>
@@ -133,8 +158,8 @@ class Home extends Component {
               />
             </Form.Group>
           </Form.Row>
-            <Button disabled={isLoading} variant="outline-secondary" onClick={() => this.createAccount()}>
-              { isLoading ? 'Loading...' : 'Create an account' }
+            <Button disabled={createBtnDisabled} variant="outline-secondary" onClick={() => this.createAccount()}>
+            { isLoading ? 'Loading...' : 'Create an account' }
             </Button>
         </Form>
       </Container>

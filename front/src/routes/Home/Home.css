@@ -29,8 +29,20 @@
   margin-left: 0px;
 }
 
-.form-box .email-row .emailName-input{
+.form-box .email-row .email-valid-style{
   width: 400px;
+}
+
+.form-box .email-row .email-non-valid-style{
+  width: 400px;
+  border: 1px solid red;
+}
+
+.non-valid-message{
+  position: absolute;
+  width: 400px;
+  color: red;
+  font-size: 12px;
 }
 
 .form-box .password-row{
