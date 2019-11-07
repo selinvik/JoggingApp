@@ -13,7 +13,7 @@ class Home extends Component {
 
   state = { 
     createBtnDisabled: true, 
-    emailValid: false, 
+    emailValid: true, 
     emailInputStyle: 'email-valid-style',
     isLoading: false,
     firstName: '', 
@@ -73,14 +73,14 @@ class Home extends Component {
         email: event.target.value, 
         createBtnDisabled: true,
         emailValid: false, 
-        emailInputStyle: 'email-non-valid-style' 
+        emailInputStyle: 'email-non-valid-style',
       })
     }
     else this.setState({ 
       email: event.target.value, 
       createBtnDisabled: false,
       emailValid: true, 
-      emailInputStyle: 'email-valid-style' 
+      emailInputStyle: 'email-valid-style',
     });
   }
 

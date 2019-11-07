@@ -75,6 +75,40 @@ export function validateEmail(email){
     else return true;
 }
 
+export function validateDistance(distance){
+    if(isNaN(distance) === true){
+        return false;
+    }
+    else return true;
+}
+
+export function validateTime(time){
+    for (var j = 0, separator_cnt = 0; j < time.length; j++ ){
+        if(time[j] === ':') {
+            separator_cnt++;
+        }
+        if(separator_cnt > 2) return false;
+    }
+    const i = time.length;
+    if(time.length === 0) return true;
+    if (time.length === 1){
+        if(isNaN(time) === true) return false;
+        else return true;
+    }
+    else if ( i < 9) {
+        if(time[i - 2] === ':'){
+            if(isNaN(time[i- 1]) === true) return false;
+            else return true;
+        }
+        else if(time[i - 1] === ':') return true;
+        else {
+            if(isNaN(time[i - 3]) === false) return false;
+            else return true;
+        } 
+    }
+    else return false;
+}
+
 export async function login(loginEmail, loginPassword, history){
     try {
         const response = await fetch('/api/authentication',

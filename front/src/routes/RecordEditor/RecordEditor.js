@@ -7,11 +7,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
 import './RecordEditor.css';
-import { secondsToString, stringToSeconds, validateDate } from '../../utils/functions';
+import { secondsToString, stringToSeconds, validateDate, validateDistance, validateTime } from '../../utils/functions';
 
 class RecordEditor extends Component {
 
-  state = { isLoading: false, date: new Date(), distance: '', time: '' }
+  state = { isLoading: false, date: new Date(), distanceValid: false, timeValid: false, distance: '', time: '' }
 
   componentDidMount() {
     if (this.props.match.params.id !== undefined)
@@ -94,14 +94,50 @@ class RecordEditor extends Component {
     this.setState({ date: date })
   }
 
-  handleChangeInput(propName) {
-    return (event) => this.setState({ [propName] : event.target.value });
+  handleChangeDistance(event){
+    if(event.target.value === ''){
+      this.setState({
+        distance: event.target.value,
+        distanceValid: false,
+      })
+    }
+    else if(validateDistance(event.target.value) === true){
+      this.setState({
+        distance: event.target.value,
+        distanceValid: true,
+      })
+    }
+    else{
+      return this.setState({
+        distanceValid: false,
+      })
+    }
+  }
+
+  handleChangeTime(event){
+    if(event.target.value === ''){
+      this.setState({
+        time: event.target.value,
+        timeValid: false,
+      })
+    }
+    else if (validateTime(event.target.value) === true ){
+      this.setState({
+        time: event.target.value,
+        timeValid: true,
+      })
+    }
+    else{
+      return this.setState({
+        timeValid: false,
+      })
+    }
   }
 
  render(){
   const id = this.props.match.params.id;
   const isNewRecord = id === undefined;
-  const { isLoading, date, time, distance } = this.state;
+  const { isLoading, distanceValid, timeValid, date, time, distance } = this.state;
   return(
     <Container>
       <Row className='add-title-row'>
@@ -123,8 +159,11 @@ class RecordEditor extends Component {
               type="text"
               placeholder="Distance(m)"
               value={distance}
-              onChange={this.handleChangeInput('distance')}
+              onChange={this.handleChangeDistance.bind(this)}
             />
+            {
+              distanceValid ? <div></div> : <div className='non-valid-message'>(example: 660)</div>
+            }
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -133,8 +172,11 @@ class RecordEditor extends Component {
               type="text"
               placeholder="00:00:00"
               value={time}
-              onChange={this.handleChangeInput('time')}
+              onChange={this.handleChangeTime.bind(this)}
             />
+            {
+              timeValid ? <div></div> : <div className='non-valid-message'>(example: 1:14:23)</div>
+            }
           </Form.Group>
         </Form.Row>
           <Button variant="outline-secondary" onClick={this.addRecord.bind(this)}>
