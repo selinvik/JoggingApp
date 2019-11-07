@@ -3,3 +3,10 @@
   margin-bottom: 30px;
   font-size: 22px;
 }
+
+.non-valid-message{
+  position: absolute;
+  width: 400px;
+  color: red;
+  font-size: 12px;
+}
