@@ -14,7 +14,7 @@ import { secondsToString, avgSpeed, beautifyDate, getDayStart, getDayEnd } from 
 
 import EditImg from './pictures/edit.png';
 import DeleteImg from './pictures/delete.png';
-import Navigation from '../../components/Header/Navigation';
+//import Navigation from '../../components/Header/Navigation';
 
 function filterDates(filter, row){
   const date = row[filter.id].valueOf();
@@ -118,7 +118,7 @@ class Records extends Component {
     const { records } = this.state;
     return(
       <Container>
-        <Navigation pathname={this.props.location.pathname}/>
+        {/*<Navigation pathname={this.props.location.pathname}/>*/}
         <ReactTable
           filterable
           data={records}

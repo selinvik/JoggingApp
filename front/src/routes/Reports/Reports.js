@@ -8,7 +8,7 @@ import "react-table/react-table.css";
 import Container from 'react-bootstrap/Container';
 
 import { avgWeekSpeed } from '../../utils/functions';
-import Navigation from '../../components/Header/Navigation';
+//import Navigation from '../../components/Header/Navigation';
 
 class Reports extends Component {
 
@@ -34,7 +34,7 @@ class Reports extends Component {
  render(){
   return(
     <Container>
-      <Navigation pathname={this.props.location.pathname}/>
+      {/*<Navigation pathname={this.props.location.pathname}/>*/}
       <ReactTable
         data={this.state.reports}
         noDataText="Нет данных!"

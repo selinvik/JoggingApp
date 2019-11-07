@@ -1,26 +1,35 @@
 
-import React, { Component } from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import Form from 'react-bootstrap/Form';
+import FormControl, { FormControlProps } from 'react-bootstrap/FormControl';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import './Header.css'
-import { withRouter } from "react-router";
+import { withRouter, RouteComponentProps } from "react-router";
 
 import { login } from '../../utils/functions';
 
-class Header extends Component{
+interface IProps extends RouteComponentProps<{}>{}
+
+interface IState{
+    isLoading: boolean
+    loginEmail: string
+    loginPassword: string
+}
+
+class Header extends Component<IProps, IState>{
     state = { isLoading: false, loginEmail: '', loginPassword: '' }
 
-    handleChangeLoginEmail(event) {
+    handleChangeLoginEmail(event: React.FormEvent<FormControl & FormControlProps>) {
         this.setState({
-            loginEmail: event.target.value
+            loginEmail: event.currentTarget.value || ''
         })
     }
 
-    handleChangeLoginPassword(event) {
+    handleChangeLoginPassword(event: React.FormEvent<FormControl & FormControlProps>) {
         this.setState({
-            loginPassword: event.target.value
+            loginPassword: event.currentTarget.value || ''
         })
     }
 

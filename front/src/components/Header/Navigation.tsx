@@ -2,9 +2,12 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import './Navigation.css'
 import Form from 'react-bootstrap/Form';
-import { withRouter } from "react-router";
 
-export const Navigation = ({pathname}) => (
+interface IProps{
+  pathname: string
+}
+
+export const Navigation: React.SFC<IProps> = ({pathname}) => (
   pathname === "/records/" ?
   <>
     <Form.Row className='navigation-row'>
@@ -19,4 +22,4 @@ export const Navigation = ({pathname}) => (
     </Form.Row>
 )
 
-export default withRouter(Navigation);
+export default Navigation;
