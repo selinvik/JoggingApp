@@ -14,9 +14,9 @@ export class Record extends Model {
   public distance: number;
   public time: number;
 
-  public getUser!: BelongsToGetAssociationMixin<Record>;
-  public setUser!: BelongsToSetAssociationMixin<Record, number>;
-  public createUser!: BelongsToCreateAssociationMixin<Record>;
+  public getUser!: BelongsToGetAssociationMixin<User>;
+  public setUser!: BelongsToSetAssociationMixin<User, number>;
+  public createUser!: BelongsToCreateAssociationMixin<User>;
 
   public readonly user?: User;
 }

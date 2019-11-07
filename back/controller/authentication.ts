@@ -1,10 +1,11 @@
 import express, { RequestHandler } from 'express';
 const router = express.Router();
 import passport from 'passport';
+import { User } from '../db/models/User';
 
-const msleep = time =>
+const msleep = (ms:number) =>
    new Promise(
-       resolve => setTimeout(_=>resolve(), time)
+       resolve => setTimeout(_=>resolve(), ms)
    )
 ;
 
@@ -12,7 +13,7 @@ const authController: {
   [key: string]: RequestHandler
 } = {
   create: async (req, res, next) => {
-    await passport.authenticate('local', async function(err, user, info) {
+    await passport.authenticate('local', async function(err, user: User, info) {
       await msleep(1000);
       if (err)  {
         return next(err);

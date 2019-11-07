@@ -1,35 +1,39 @@
 import express, { RequestHandler } from 'express';
 const router = express.Router();
-import { Record } from '../db/models/models';
+import { Record, User } from '../db/models/models';
 import authorization from '../middlewares/authorization';
 
 const recordController: {
   [key: string]: RequestHandler
 } = {
   create: async function (req, res) {
-    const user = req.user;
-    const record = await Record.create({
-      date      : req.body.date,
-      distance  : req.body.distance,
-      time      : req.body.time
-    })
-    await record.setUser(user);
-    res.send(record)
+    try{
+      const user = req.user as User;
+      const record = await Record.create({
+        date      : req.body.date,
+        distance  : req.body.distance,
+        time      : req.body.time
+      })
+      await record.setUser(user);
+      res.send(record)
+    } catch (error) {
+      return res.status(500).send()
+    }
   },
   record: async function (req, res){
     try{
       const record = await Record.findOne({ where: { id: req.params.id }})
       res.send(record)
     } catch (error) {
-      console.error(error);
+      return res.status(500).send()
     }
   },
   list: async function (req, res) {
     try{
-      const records = await Record.findAll({where: {UserId: req.user.id}})
+      const records = await Record.findAll({where: {UserId: (req.user as User).id}})
       res.send(records)
     } catch (error) {
-      console.error(error);
+      return res.status(500).send()
     }
   },
   update: async function (req, res ) {
@@ -42,7 +46,7 @@ const recordController: {
       })
       return res.status(200).send()
     } catch (error) {
-      console.error(error);
+      return res.status(500).send()
     }
   },
   delete: async function (req, res) {
@@ -51,7 +55,7 @@ const recordController: {
       await record.destroy()
       return res.status(200).send()
     } catch (error) {
-      console.error(error);
+      return res.status(500).send()
     }
   }
 }

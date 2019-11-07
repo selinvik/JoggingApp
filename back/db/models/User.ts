@@ -44,6 +44,6 @@ User.init({
   sequelize: sequelize,
 });
 
-User.prototype.validPassword = async function(password){
+User.prototype.validPassword = async function( password: string ){
   return await bcrypt.compare(password, this.dataValues.password);
 }

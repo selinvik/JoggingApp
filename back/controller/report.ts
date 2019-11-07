@@ -1,6 +1,6 @@
 import express, { RequestHandler } from 'express';
 const router = express.Router();
-import { Record } from '../db/models/models';
+import { Record, User } from '../db/models/models';
 import Sequelize from 'sequelize';
 import authorization from '../middlewares/authorization';
 
@@ -16,11 +16,11 @@ const reportController: {
           [Sequelize.cast(Sequelize.fn('AVG', Sequelize.col('time')), 'INTEGER'), 'avgWeekTime']],
         group: ['week'],
         order: [[Sequelize.fn('date_trunc', 'week', Sequelize.col('date')), 'ASC']],
-        where: {UserId: req.user.id}
+        where: {UserId: (req.user as User).id}
       })
       res.send(reports)
     } catch (error) {
-      console.error(error);
+      return res.status(500).send()
     }
   }
 }
