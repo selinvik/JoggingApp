@@ -9,6 +9,6 @@
       "allowJs": true,
     },
     "allowJs": true,
-    "include": ["app.ts"],
+    "include": ["app.ts", "./db/fill-db.ts"],
     "lib": ["es2015"]
 }

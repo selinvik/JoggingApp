@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/app.js",
-    "fill-db": "node ./db/fill-db.js"
+    "fill-db": "tsc && node dist/db/fill-db.js"
   },
   "author": "",
   "license": "ISC",
