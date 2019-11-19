@@ -1,6 +1,6 @@
-export function secondsToString(seconds){
-    function timeFormat(ms){
-        function num(val){
+export function secondsToString(seconds: number){
+    function timeFormat(ms: number){
+        function num(val: number){
             val = Math.floor(val);
             return val < 10 ? '0' + val : val;
         }
@@ -14,7 +14,7 @@ export function secondsToString(seconds){
     return timeFormat(seconds * 1000);
 }
 
-export function stringToSeconds(str){
+export function stringToSeconds(str: any){
     const time = str.split(':');
     var seconds = 0, mult = 1;
 
@@ -25,28 +25,28 @@ export function stringToSeconds(str){
     return seconds;
 }
 
-export function beautifyDate(date) {
+export function beautifyDate(date: Date) {
     const dateDisplay = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + date.getFullYear();
     return dateDisplay;
 }
 
-export function getDayStart(date){
+export function getDayStart(date: any){
     return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
 }
 
-export function getDayEnd(date){
+export function getDayEnd(date: any){
     return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
 }
 
-export function avgSpeed(record) {
+export function avgSpeed(record: {distance: number, time: number}) {
     return ((record.distance / 1000) / (record.time / 3600  % 24)).toFixed(2);
 }
 
-export function avgWeekSpeed(record) {
+export function avgWeekSpeed(record: {avgWeekDist: number, avgWeekTime: number}) {
     return ((record.avgWeekDist / 1000) / (record.avgWeekTime / 3600  % 24)).toFixed(2);
 }
 
-export function validateDate(date){
+export function validateDate(date: Date){
     const now = new Date();
     const userDate = new Date(date)
     if (userDate.getFullYear() > now.getFullYear()){
@@ -67,7 +67,7 @@ export function validateDate(date){
     else return true
 }
 
-export function validateEmail(email){
+export function validateEmail(email: string){
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     if(reg.test(email) === false) {
       return false;
@@ -75,14 +75,14 @@ export function validateEmail(email){
     else return true;
 }
 
-export function validateDistance(distance){
+export function validateDistance(distance: any){
     if(isNaN(distance) === true){
         return false;
     }
     else return true;
 }
 
-export function validateTime(time){
+export function validateTime(time: any){
     for (var j = 0, separator_cnt = 0; j < time.length; j++ ){
         if(time[j] === ':') {
             separator_cnt++;
@@ -92,7 +92,7 @@ export function validateTime(time){
     const i = time.length;
     if(time.length === 0) return true;
     if (time.length === 1){
-        if(isNaN(time) === true) return false;
+        if(isNaN(time[0]) === true) return false;
         else return true;
     }
     else if ( i < 9) {
@@ -109,7 +109,7 @@ export function validateTime(time){
     else return false;
 }
 
-export async function login(loginEmail, loginPassword, history){
+export async function login(loginEmail: string, loginPassword: string, history: any){
     try {
         const response = await fetch('/api/authentication',
             {

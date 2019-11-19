@@ -7,6 +7,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { withRouter, RouteComponentProps } from "react-router";
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -14,17 +15,36 @@ import { secondsToString, avgSpeed, beautifyDate, getDayStart, getDayEnd } from 
 
 import EditImg from './pictures/edit.png';
 import DeleteImg from './pictures/delete.png';
-//import Navigation from '../../components/Header/Navigation';
+import Navigation from '../../components/Header/Navigation';
+import { Row } from 'react-bootstrap';
 
-function filterDates(filter, row){
-  const date = row[filter.id].valueOf();
+interface ITableRow{
+  id: number
+  date: Date
+  distance: number
+  time: number
+}
+
+interface IDateFilterValue{
+  start: number
+  end: number
+}
+
+interface IDateFilter{
+  id: string
+  value: IDateFilterValue
+}
+
+type OnChangeDateFilter = (date: IDateFilterValue) => void;
+
+function filterDates(filter: IDateFilter, row: ITableRow){
+  //as 'date' is bad, but we can't make it better because react-table expects string and TS cannot convert string literal to string.
+  const date = row[filter.id as 'date'].valueOf();
   return filter.value.start <= date && date <= filter.value.end;
 }
 
-function DateRangeColumnFilter({
-  filter,
-  onChange
-}) {
+function DateRangeColumnFilter(params: { filter: IDateFilter, onChange: OnChangeDateFilter }): React.ReactElement {
+  const { filter, onChange } = params;
   const minFilterDate = Date.now() - 1000 * 60 * 60 * 24 * 7;
   const maxFilterDate = Date.now();
   const start = filter ? filter.value.start : getDayStart(new Date(minFilterDate)).valueOf();
@@ -66,7 +86,13 @@ function DateRangeColumnFilter({
   )
 }
 
-class Records extends Component {
+interface IProps extends RouteComponentProps<{}>{}
+
+interface IState{
+  records: Array<object>
+}
+
+class Records extends Component <IProps, IState> {
 
   state = { records:[] }
 
@@ -80,7 +106,7 @@ class Records extends Component {
         {credentials: 'include'}
       );
       const recordsJson = await response.json();
-      recordsJson.forEach(record => record.date = new Date(record.date));
+      recordsJson.forEach((record: any) => record.date = new Date(record.date));
       this.setState({records: recordsJson});
       return recordsJson;
     } catch (error) {
@@ -88,7 +114,7 @@ class Records extends Component {
     }
   }
 
-  async deleteRecord(id) {
+  async deleteRecord(id: string) {
     try {
       const response = await fetch('/api/record',
         {
@@ -118,8 +144,8 @@ class Records extends Component {
     const { records } = this.state;
     return(
       <Container>
-        {/*<Navigation pathname={this.props.location.pathname}/>*/}
-        <ReactTable
+        {<Navigation pathname={this.props.location.pathname}/>}
+        <ReactTable<ITableRow>
           filterable
           data={records}
           noDataText="Нет данных!"
@@ -184,4 +210,4 @@ class Records extends Component {
  }
 }
 
-export default Records
+export default withRouter(Records)

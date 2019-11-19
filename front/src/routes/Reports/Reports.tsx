@@ -8,9 +8,17 @@ import "react-table/react-table.css";
 import Container from 'react-bootstrap/Container';
 
 import { avgWeekSpeed } from '../../utils/functions';
-//import Navigation from '../../components/Header/Navigation';
 
-class Reports extends Component {
+import { withRouter, RouteComponentProps } from "react-router";
+import Navigation from '../../components/Header/Navigation';
+
+interface IProps extends RouteComponentProps<{}>{}
+
+interface IState{
+  reports: Array<object>
+}
+
+class Reports extends Component <IProps, IState> {
 
   state = {reports:[]}
 
@@ -34,7 +42,7 @@ class Reports extends Component {
  render(){
   return(
     <Container>
-      {/*<Navigation pathname={this.props.location.pathname}/>*/}
+      {<Navigation pathname={this.props.location.pathname}/>}
       <ReactTable
         data={this.state.reports}
         noDataText="Нет данных!"
@@ -64,4 +72,4 @@ class Reports extends Component {
 }
 }
 
-export default Reports
+export default withRouter(Reports)

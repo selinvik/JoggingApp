@@ -2,14 +2,29 @@ import React from 'react';
 import { Component } from 'react';
 import './Home.css';
 import { login, validateEmail } from '../../utils/functions';
-import { withRouter } from "react-router-dom"
+import { withRouter, RouteComponentProps } from "react-router";
+import FormControl, { FormControlProps } from 'react-bootstrap/FormControl';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-class Home extends Component {
+interface IProps extends RouteComponentProps<{}>{}
+
+interface IState{
+  createBtnDisabled: boolean 
+  emailValid: boolean
+  emailInputStyle: string
+  isLoading: boolean
+  firstName: string 
+  lastName: string
+  email: string
+  password: string
+  passwordRepeat: string
+}
+
+class Home extends Component <IProps, IState> {
 
   state = { 
     createBtnDisabled: true, 
@@ -54,45 +69,45 @@ class Home extends Component {
     }
   }
 
-  handleChangeFirstName(event) {
+  handleChangeFirstName(event: React.FormEvent<FormControl & FormControlProps>) {
     this.setState({
-        firstName: event.target.value
+        firstName: event.currentTarget.value || ''
     })
   }
 
-  handleChangeLastName(event) {
+  handleChangeLastName(event: React.FormEvent<FormControl & FormControlProps>) {
     this.setState({
-        lastName: event.target.value
+        lastName: event.currentTarget.value || ''
     })
   }
 
-  handleChangeEmail(event) {
-    const email = validateEmail(event.target.value);
+  handleChangeEmail(event: React.FormEvent<FormControl & FormControlProps>) {
+    const email = validateEmail(event.currentTarget.value || '');
     if (email === false) {
       this.setState({ 
-        email: event.target.value, 
+        email: event.currentTarget.value || '', 
         createBtnDisabled: true,
         emailValid: false, 
         emailInputStyle: 'email-non-valid-style',
       })
     }
     else this.setState({ 
-      email: event.target.value, 
+      email: event.currentTarget.value || '', 
       createBtnDisabled: false,
       emailValid: true, 
       emailInputStyle: 'email-valid-style',
     });
   }
 
-  handleChangePassword(event) {
+  handleChangePassword(event: React.FormEvent<FormControl & FormControlProps>) {
     this.setState({
-        password: event.target.value
+        password: event.currentTarget.value || ''
     })
   }
 
-  handleChangePasswordRepeat(event) {
+  handleChangePasswordRepeat(event: React.FormEvent<FormControl & FormControlProps>) {
     this.setState({
-        passwordRepeat: event.target.value
+        passwordRepeat: event.currentTarget.value || ''
     })
   }
 

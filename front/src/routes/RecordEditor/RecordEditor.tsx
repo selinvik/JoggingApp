@@ -5,20 +5,40 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { withRouter, RouteComponentProps } from "react-router";
+import FormControl, { FormControlProps } from 'react-bootstrap/FormControl';
 
 import './RecordEditor.css';
 import { secondsToString, stringToSeconds, validateDate, validateDistance, validateTime } from '../../utils/functions';
 
-class RecordEditor extends Component {
+interface IProps extends RouteComponentProps<{id?:string}>{}
 
-  state = { isLoading: false, date: new Date(), distanceValid: false, timeValid: false, distance: '', time: '' }
+interface IState{
+  isLoading: boolean
+  date: Date 
+  distanceValid: boolean
+  timeValid: boolean
+  distance: string 
+  time: string
+}
+
+class RecordEditor extends Component <IProps, IState> {
+
+  state = { 
+    isLoading: false, 
+    date: new Date(), 
+    distanceValid: false, 
+    timeValid: false, 
+    distance: '', 
+    time: '' 
+  }
 
   componentDidMount() {
     if (this.props.match.params.id !== undefined)
       this.loadRecord(this.props.match.params.id);
   }
 
-  async loadRecord(id) {
+  async loadRecord(id: string) {
     try {
       const response = await fetch('/api/record/' + id,
         { credentials: 'include' }
@@ -54,13 +74,18 @@ class RecordEditor extends Component {
       this.setState({ isLoading : true });
       const isNewRecord = id === undefined;
       const method = isNewRecord ? 'POST' : 'PUT';
-      const body = {
+      const body: { 
+        date: string 
+        id?: string
+        distance: string
+        time: string;
+      } = {
         date      : date + '',
         distance  : distance + '',
         time      : time + '',
       };
       if (!isNewRecord)
-        body.id = id;
+        body.id = id
 
       const response = await fetch('/api/record',
         {
@@ -90,20 +115,20 @@ class RecordEditor extends Component {
     }
   }
 
-  handleChangeDate(date) {
+  handleChangeDate(date: Date) {
     this.setState({ date: date })
   }
 
-  handleChangeDistance(event){
-    if(event.target.value === ''){
+  handleChangeDistance(event: React.FormEvent<FormControl & FormControlProps>){
+    if(event.currentTarget.value === ''){
       this.setState({
-        distance: event.target.value,
+        distance: event.currentTarget.value || '',
         distanceValid: false,
       })
     }
-    else if(validateDistance(event.target.value) === true){
+    else if(validateDistance(event.currentTarget.value) === true){
       this.setState({
-        distance: event.target.value,
+        distance: event.currentTarget.value || '',
         distanceValid: true,
       })
     }
@@ -114,16 +139,16 @@ class RecordEditor extends Component {
     }
   }
 
-  handleChangeTime(event){
-    if(event.target.value === ''){
+  handleChangeTime(event: React.FormEvent<FormControl & FormControlProps>){
+    if(event.currentTarget.value === ''){
       this.setState({
-        time: event.target.value,
+        time: event.currentTarget.value,
         timeValid: false,
       })
     }
-    else if (validateTime(event.target.value) === true ){
+    else if (validateTime(event.currentTarget.value) === true ){
       this.setState({
-        time: event.target.value,
+        time: event.currentTarget.value || '',
         timeValid: true,
       })
     }
@@ -188,4 +213,4 @@ class RecordEditor extends Component {
  }
 }
 
-export default RecordEditor
+export default withRouter(RecordEditor)
