@@ -10,6 +10,7 @@ import { User } from '../db/models/models';
 router.use(session({
   secret: 'keyboard cat',
   store: SessionStore,
+  saveUninitialized: false,
   resave: false, // we support the touch method so per the express-session docs this should be set to false
   proxy: true, // if you do SSL outside of node.
   cookie: { secure: true, sameSite: true, httpOnly: true }

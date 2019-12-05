@@ -14,12 +14,13 @@ export function secondsToString(seconds: number){
     return timeFormat(seconds * 1000);
 }
 
-export function stringToSeconds(str: any){
+export function stringToSeconds(str: string){
     const time = str.split(':');
-    var seconds = 0, mult = 1;
+    var seconds: number = 0, mult: number = 1;
+    const t = time.pop()
 
-    while (time.length > 0) {
-        seconds += mult * parseInt(time.pop(), 10);
+    while (time.length > 0 && t !== undefined) {
+        seconds += mult * parseInt(t, 10);
         mult *= 60;
     }
     return seconds;
@@ -30,11 +31,11 @@ export function beautifyDate(date: Date) {
     return dateDisplay;
 }
 
-export function getDayStart(date: any){
+export function getDayStart(date: Date){
     return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
 }
 
-export function getDayEnd(date: any){
+export function getDayEnd(date: Date){
     return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
 }
 
@@ -75,14 +76,14 @@ export function validateEmail(email: string){
     else return true;
 }
 
-export function validateDistance(distance: any){
-    if(isNaN(distance) === true){
+export function validateDistance(distance: string){
+    if(isNaN(parseInt(distance)) === true){
         return false;
     }
     else return true;
 }
 
-export function validateTime(time: any){
+export function validateTime(time: string){
     for (var j = 0, separator_cnt = 0; j < time.length; j++ ){
         if(time[j] === ':') {
             separator_cnt++;
@@ -91,25 +92,25 @@ export function validateTime(time: any){
     }
     const i = time.length;
     if(time.length === 0) return true;
-    if (time.length === 1){
-        if(isNaN(time[0]) === true) return false;
+    if (time.length === 1) {
+        if(isNaN(parseInt(time[0])) === true) return false;
         else return true;
     }
     else if ( i < 9) {
         if(time[i - 2] === ':'){
-            if(isNaN(time[i- 1]) === true) return false;
+            if(isNaN(parseInt(time[i- 1])) === true) return false;
             else return true;
         }
         else if(time[i - 1] === ':') return true;
         else {
-            if(isNaN(time[i - 3]) === false) return false;
+            if(isNaN(parseInt(time[i - 3])) === false) return false;
             else return true;
         } 
     }
     else return false;
 }
 
-export async function login(loginEmail: string, loginPassword: string, history: any){
+export async function login(loginEmail: string, loginPassword: string, history: { push(url: string): void }){
     try {
         const response = await fetch('/api/authentication',
             {

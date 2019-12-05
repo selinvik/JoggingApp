@@ -28,8 +28,8 @@ const userController: {
         password  : hashPassword
       });
       res.send(user);
-    } catch (err) {
-      res.status(409).send();
+    } catch (error) {
+      return res.status(409).send();
     }
   }
 }

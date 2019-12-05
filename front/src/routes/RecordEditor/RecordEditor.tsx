@@ -65,6 +65,7 @@ class RecordEditor extends Component <IProps, IState> {
     const distance = parseInt(this.state.distance);
     const time = stringToSeconds(this.state.time);
 
+
     if (validateDate(date) === false) {
       alert('Введите правильно дату');
       return;
@@ -126,7 +127,7 @@ class RecordEditor extends Component <IProps, IState> {
         distanceValid: false,
       })
     }
-    else if(validateDistance(event.currentTarget.value) === true){
+    else if(validateDistance(event.currentTarget.value || '') === true){
       this.setState({
         distance: event.currentTarget.value || '',
         distanceValid: true,
@@ -146,7 +147,7 @@ class RecordEditor extends Component <IProps, IState> {
         timeValid: false,
       })
     }
-    else if (validateTime(event.currentTarget.value) === true ){
+    else if (validateTime(event.currentTarget.value || '') === true ){
       this.setState({
         time: event.currentTarget.value || '',
         timeValid: true,

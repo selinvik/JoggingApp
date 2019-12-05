@@ -62,8 +62,10 @@ function DateRangeColumnFilter(params: { filter: IDateFilter, onChange: OnChange
           className='pickerInputWidth'
           selected={new Date(start)}
           onChange={date => {
-            const val = getDayStart(date).valueOf();
-            onChange({ start: val, end });
+            if (date) {
+              const val = getDayStart(date).valueOf();
+              onChange({ start: val, end });
+            }
           }}
         />
       </div>
@@ -77,8 +79,10 @@ function DateRangeColumnFilter(params: { filter: IDateFilter, onChange: OnChange
           className='pickerInputWidth'
           selected={new Date(end)}
           onChange={date => {
-            const val = getDayEnd(date).valueOf();
-            onChange({ start, end: val });
+            if (date) {
+              const val = getDayEnd(date).valueOf();
+              onChange({ start, end: val });
+            }
           }}
         />
       </div>
@@ -110,6 +114,7 @@ class Records extends Component <IProps, IState> {
       this.setState({records: recordsJson});
       return recordsJson;
     } catch (error) {
+      console.log('ошибка')
       console.error(error);
     }
   }
