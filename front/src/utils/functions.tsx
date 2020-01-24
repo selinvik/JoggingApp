@@ -17,11 +17,12 @@ export function secondsToString(seconds: number){
 export function stringToSeconds(str: string){
     const time = str.split(':');
     var seconds: number = 0, mult: number = 1;
-    const t = time.pop()
-
-    while (time.length > 0 && t !== undefined) {
-        seconds += mult * parseInt(t, 10);
-        mult *= 60;
+    while (time.length > 0) {
+        const t = time.pop()
+        if(t !== undefined){
+            seconds += mult * parseInt(t, 10);
+            mult *= 60;
+        }
     }
     return seconds;
 }
