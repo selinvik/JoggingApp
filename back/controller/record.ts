@@ -1,6 +1,7 @@
 import express, { RequestHandler } from 'express';
 const router = express.Router();
-import { Record, User } from '../db/models/models';
+import { IUser } from '../db/models/User';
+import Record from '../db/models/Record';
 import authorization from '../middlewares/authorization';
 
 const recordController: {
@@ -8,13 +9,16 @@ const recordController: {
 } = {
   create: async function (req, res) {
     try{
-      const user = req.user as User;
+      const user = req.user as IUser;
       const record = await Record.create({
         date      : req.body.date,
         distance  : req.body.distance,
-        time      : req.body.time
+        time      : req.body.time,
+        user      : user.id
       })
-      await record.setUser(user);
+      await user.updateOne({
+        $push: {records: record}
+      })
       res.send(record)
     } catch (error) {
       return res.status(500).send()
@@ -22,24 +26,26 @@ const recordController: {
   },
   record: async function (req, res){
     try{
-      const record = await Record.findOne({ where: { id: req.params.id }})
-      res.send(record)
+      const record = await Record.findById(req.params.id);
+      res.send(record);
     } catch (error) {
       return res.status(500).send()
     }
   },
   list: async function (req, res) {
     try{
-      const records = await Record.findAll({where: {UserId: (req.user as User).id}})
-      res.send(records)
+      const userWithRecords = await (req.user as IUser).populate('records').execPopulate();
+      res.send(userWithRecords.records);
     } catch (error) {
+      //TODO: remove try catch where possible, handle it on upper level, log in console error
+      console.error(error);
       return res.status(500).send()
     }
   },
   update: async function (req, res ) {
     try{
-      const record = await Record.findOne({ where: { id: req.body.id }})
-      await record.update({
+      const record = await Record.findById(req.body.id)
+      await record.updateOne({
           date      : req.body.date,
           distance  : req.body.distance,
           time      : req.body.time
@@ -51,8 +57,11 @@ const recordController: {
   },
   delete: async function (req, res) {
     try{
-      const record = await Record.findOne({ where: { id: req.body.id }})
-      await record.destroy()
+      const user = req.user as IUser;
+      const record = await Record.findByIdAndDelete(req.body.id)
+      await user.updateOne({
+        $pull: { records: record.id }
+      })
       return res.status(200).send()
     } catch (error) {
       return res.status(500).send()

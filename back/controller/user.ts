@@ -1,19 +1,7 @@
 import express, { RequestHandler } from 'express';
 const router = express.Router();
-import { User } from '../db/models/models';
-import bcrypt from 'bcrypt';
-
-function generatePasswordHash(password: string): Promise<string>{
-  return bcrypt.genSalt(10)
-    .then((salt) => {
-      return bcrypt.hash(password, salt)
-        .then((hash) => {
-          return hash;
-        })
-        .catch(() => null);
-    })
-    .catch(() => null);
-}
+import User from '../db/models/User';
+import { generatePasswordHash } from '../utils/functions';
 
 const userController: {
   [key: string]: RequestHandler
