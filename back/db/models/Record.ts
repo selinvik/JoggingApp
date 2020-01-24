@@ -1,32 +1,23 @@
-import Sequelize, {
-  Model,
-  BelongsToGetAssociationMixin,
-  BelongsToCreateAssociationMixin,
-  BelongsToSetAssociationMixin,
-} from
-'sequelize';
-import { sequelize } from '../db';
-import { User } from './User';
+import mongoose, { Schema, Document } from 'mongoose';
+import { IUser } from './User';
+import { ModelNames } from './constants';
 
-export class Record extends Model {
-  public id!: number;
-  public date: string;
-  public distance: number;
-  public time: number;
-
-  public getUser!: BelongsToGetAssociationMixin<User>;
-  public setUser!: BelongsToSetAssociationMixin<User, number>;
-  public createUser!: BelongsToCreateAssociationMixin<User>;
-
-  public readonly user?: User;
+export interface IRecord extends Document {
+  date: Date;
+  distance: number;
+  time: number;
+  user?: IUser;
 }
 
-Record.init({
-  id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  date      : { type: Sequelize.DATE},
-  distance  : { type: Sequelize.INTEGER},
-  time      : { type: Sequelize.INTEGER},
-}, {
-  tableName: 'Records',
-  sequelize: sequelize,
+const RecordSchema: Schema = new Schema({
+  date: { type: Date, required: true },
+  distance: { type: Number, required: true },
+  time: { type: Number, required: true },
+  user: { type: Schema.Types.ObjectId, ref: ModelNames.User, index: true }
+}, { 
+  timestamps: true,
+  toObject: {virtuals: true},
+  toJSON: {virtuals: true},
 });
+
+export default mongoose.model<IRecord>(ModelNames.Record, RecordSchema);

@@ -1,49 +1,31 @@
-import Sequelize, {
-  Model,
-  HasManyGetAssociationsMixin,
-  HasManyAddAssociationMixin,
-  HasManyHasAssociationMixin,
-  HasManyCountAssociationsMixin,
-  HasManyCreateAssociationMixin,
-  Association
-} from 'sequelize';
-import { sequelize } from '../db';
-import { Record } from './Record';
+import mongoose, { Schema, Document } from 'mongoose';
+import { IRecord } from './Record';
+import { ModelNames } from './constants';
 import bcrypt from 'bcrypt';
 
-export class User extends Model {
-  public id!: number;
-  public firstName: string;
-  public lastName: string;
-  public email!: string;
-  public password: string;
-
-  public getRecords!: HasManyGetAssociationsMixin<Record>;
-  public addRecord!: HasManyAddAssociationMixin<Record, number>;
-  public hasRecord!: HasManyHasAssociationMixin<Record, number>;
-  public countRecords!: HasManyCountAssociationsMixin;
-  public createRecord!: HasManyCreateAssociationMixin<Record>;
-
-  public readonly records?: Record[];
-
-  public static associations: {
-    projects: Association<User, Record>;
-  };
-
-  public validPassword: (string) => Promise<boolean>;
+export interface IUser extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  records?: IRecord[];
+  validPassword: (password: string) => Promise<boolean> 
 }
 
-User.init({
-  id        : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  firstName : { type: Sequelize.STRING },
-  lastName  : { type: Sequelize.STRING },
-  email     : { type: Sequelize.STRING, allowNull: false, unique: true },
-  password  : { type: Sequelize.STRING },
-}, {
-  tableName: 'Users',
-  sequelize: sequelize,
+const UserSchema: Schema = new Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  records: [{ type: Schema.Types.ObjectId, ref: ModelNames.Record }]
+}, { 
+  timestamps: true,
+  toObject: {virtuals: true},
+  toJSON: {virtuals: true},
 });
 
-User.prototype.validPassword = async function( password: string ){
-  return await bcrypt.compare(password, this.dataValues.password);
-}
+UserSchema.methods.validPassword = async function(password){
+  return await bcrypt.compare(password, this.password);
+};
+
+export default mongoose.model<IUser>(ModelNames.User, UserSchema);

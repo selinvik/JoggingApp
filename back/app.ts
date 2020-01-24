@@ -1,8 +1,7 @@
 import express from 'express';
 const app = express();
 
-import { sequelize } from './db/db';
-sequelize.sync();
+import './db/connection';
 
 const API_PATH = '/api';
 import api from './controller/api';
