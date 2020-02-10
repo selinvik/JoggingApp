@@ -1,5 +1,4 @@
 import User from './models/User';
-import Record from './models/Record';
 import './connection';
 import { generatePasswordHash } from '../utils/functions';
 
@@ -15,30 +14,19 @@ const synchronization = async () => {
       return;
     }
 
-    const user = new User({
+    const user = new User({//todo may be replace with user.create
       firstName: 'Viktor',
       lastName: 'Selin',
       email: testEmail,
       password: await generatePasswordHash('qwerty'),
+      records: {
+        date: '01-01-2018',
+        distance: 1000,
+        time: 536 
+      }
     });
-    const record = await Record.create({
-      date: '01-01-2018',
-      distance: 1000,
-      time: 536,
-      user: user.id
-    });
-    user.records.push(record);
     await user.save();
 
-    const u1 = await (await User.findById(user.id).populate('records')).execPopulate();
-    const r1 = u1.records[0];
-    if (r1.id !== record.id)
-      throw Error(`Record ${r1.id} doesn't linked to record ${record.id}`);
-    
-    const r2 = await (await Record.findById(record.id).populate('user')).execPopulate();
-    const u2 = r2.user;
-    if (u2.id !== user.id)
-      throw Error(`Record ${u2.id} doesn't linked to record ${user.id}`);
     //todo if creation ended with error, remove created objects
 
     console.log('Successefull db fill');
