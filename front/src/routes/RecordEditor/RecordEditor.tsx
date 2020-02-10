@@ -15,6 +15,7 @@ interface IProps extends RouteComponentProps<{id?:string}>{}
 
 interface IState{
   isLoading: boolean
+  isNotFound: boolean
   date: Date 
   distanceValid: boolean
   timeValid: boolean
@@ -26,6 +27,7 @@ class RecordEditor extends Component <IProps, IState> {
 
   state = { 
     isLoading: false, 
+    isNotFound: false,
     date: new Date(), 
     distanceValid: false, 
     timeValid: false, 
@@ -43,6 +45,10 @@ class RecordEditor extends Component <IProps, IState> {
       const response = await fetch('/api/record/' + id,
         { credentials: 'include' }
       );
+      if (response.status == 404){
+        this.setState({ isNotFound: true });
+        return;
+      }
       const recordJson = await response.json();
       this.setState({
         date: new Date(recordJson.date),
@@ -163,7 +169,11 @@ class RecordEditor extends Component <IProps, IState> {
  render(){
   const id = this.props.match.params.id;
   const isNewRecord = id === undefined;
-  const { isLoading, distanceValid, timeValid, date, time, distance } = this.state;
+  const { isLoading, isNotFound, distanceValid, timeValid, date, time, distance } = this.state;
+
+  if (isNotFound)
+    return(<Container><Row className='add-title-row'>Record not found</Row></Container>);
+
   return(
     <Container>
       <Row className='add-title-row'>
